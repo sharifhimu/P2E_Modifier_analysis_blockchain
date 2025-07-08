@@ -15,7 +15,6 @@ This repository combines a **Unity game frontend** and a **Truffle-based smart c
 - [Node.js](https://nodejs.org/)
 - [Truffle](https://trufflesuite.com/)
 - [Ganache GUI or CLI](https://trufflesuite.com/ganache/)
-- [MetaMask](https://metamask.io/)
 - [Unity Hub + Unity Editor](https://unity.com/)
 
 ---
