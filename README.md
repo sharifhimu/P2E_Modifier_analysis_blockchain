@@ -48,10 +48,13 @@ networks: {
 }
 
 ### Step 3: Compile and Migrate Contracts
+
+```bash
 cd myDapp
 npm install
 truffle compile
 truffle migrate --network development
+```
 
 ## Part 2: Run the Unity Game
 ### ✅ Step 1: Open Project
