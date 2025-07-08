@@ -1,0 +1,20 @@
+# Unity-specific
+UnityProject/[Ll]ibrary/
+UnityProject/[Tt]emp/
+UnityProject/[Oo]bj/
+UnityProject/[Bb]uild/
+UnityProject/[Mm]emoryCaptures/
+
+# VS Code / IDEs
+*.csproj
+*.sln
+*.user
+*.vscode/
+
+# Truffle / Node.js-specific
+TruffleContracts/node_modules/
+TruffleContracts/build/
+
+# OS / general
+.DS_Store
+*.log
