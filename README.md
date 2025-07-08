@@ -33,7 +33,7 @@ Choose **one**:
 
 #### 🟧 Option B: Ganache CLI
 ```bash
-ganache-cli --port 8545
+ganache-cli --port 7545
 ```
 ### Step 2: Configure Truffle
 
