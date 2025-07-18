@@ -1,0 +1,28 @@
+# Truffle Project ignore rules (if needed)
+myDapp/build/
+myDapp/node_modules/
+
+# Unity Project ignore rules
+test4/Library/
+test4/Temp/
+test4/Obj/
+test4/Build/
+test4/Logs/
+test4/MemoryCaptures/
+test4/Assets/AssetStoreTools*
+
+# IDE files
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# OS generated files
+.DS_Store
+Thumbs.db
