@@ -149,31 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rpcUrl: http://192.168.100.60:8545
-  contractAddress: 0xea2Fd44FBa043eBba814CB547334D935FaE7d88b
-  abi: "[ { \"inputs\":[], \"name\":\"ethPrice\", \"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],
-    \"stateMutability\":\"view\", \"type\":\"function\" },\r\n                       
-    { \"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],
-    \"name\":\"playerAddresses\", \"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],
-    \"stateMutability\":\"view\", \"type\":\"function\" },\r\n                       
-    { \"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],
-    \"name\":\"playerScores\", \"outputs\":[{\"internalType\":\"uint256\",\"name\":\"playerId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"walletAddress\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"coinAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"characterIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"exchangedAmount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"exists\",\"type\":\"bool\"}],
-    \"stateMutability\":\"view\", \"type\":\"function\" },\r\n                       
-    { \"inputs\":[], \"name\":\"hello\", \"outputs\":[{\"internalType\":\"string\",\"name\":\"\",\"type\":\"string\"}],
-    \"stateMutability\":\"pure\", \"type\":\"function\" },\r\n                       
-    { \"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_price\",\"type\":\"uint256\"}],
-    \"name\":\"setPrice\", \"outputs\":[], \"stateMutability\":\"nonpayable\", \"type\":\"function\"
-    },\r\n                        { \"inputs\":[{\"internalType\":\"uint256\",\"name\":\"playerId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"add\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"coinAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"characterIndex\",\"type\":\"uint256\"}],
-    \"name\":\"Sendscore\", \"outputs\":[], \"stateMutability\":\"nonpayable\", \"type\":\"function\"
-    },\r\n                        { \"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_newCoinAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_newCharacterIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_exchangedAmount\",\"type\":\"uint256\"}],
-    \"name\":\"updateScoreByPlayerId\", \"outputs\":[], \"stateMutability\":\"nonpayable\",
-    \"type\":\"function\" },\r\n                        { \"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_amount\",\"type\":\"uint256\"}],
-    \"name\":\"setExchangeAmount\", \"outputs\":[], \"stateMutability\":\"nonpayable\",
-    \"type\":\"function\" },\r\n                        { \"inputs\":[], \"name\":\"getAllData\",
-    \"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"components\":[{\"internalType\":\"uint256\",\"name\":\"playerId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"walletAddress\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"coinAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"characterIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"exchangedAmount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"exists\",\"type\":\"bool\"}],\"internalType\":\"struct
-    TestContract.Score[]\",\"name\":\"\",\"type\":\"tuple[]\"}], \"stateMutability\":\"view\",
-    \"type\":\"function\" },\r\n                        { \"inputs\":[{\"internalType\":\"address\",\"name\":\"_wallet\",\"type\":\"address\"}],
-    \"name\":\"getPlayerData\", \"outputs\":[{\"internalType\":\"uint256\",\"name\":\"playerId\",\"type\":\"uint256\"},{\"internalType\":\"string\",\"name\":\"walletAddress\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"coinAmount\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"characterIndex\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"exchangedAmount\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"exists\",\"type\":\"bool\"}],
-    \"stateMutability\":\"view\", \"type\":\"function\" } ]"
+  contractAddress: 
+  abi: 
   walletAddress: 0x4aB5E0D87B8f27036a472ACAe9D7FbD34af4F51c
   walletAddress2: 0xEeC5bD1f87A918E56644DD60c09848B88Ec410e7
   walletAddress3: 0x5cdC304b37cF49A5FF9cbA6C59c8A8529F443164
@@ -191,6 +168,9 @@ MonoBehaviour:
   modifierOne: 0
   modifierTwo: 0
   modifierThree: 0
+  reserveValue: 0
+  reserve0: 0
+  reserve1: 0
   testRpcUrl: https://mainnet.infura.io/v3/3a57c44201504fff96c533b1b2c3515f
   testAbi: "[\r\n        {\r\n            \"constant\": true,\r\n            \"inputs\":
     [],\r\n            \"name\": \"getReserves\",\r\n            \"outputs\": [\r\n               

@@ -4,6 +4,8 @@ pragma solidity ^0.8.19;
 
 contract TestContract {
     uint public ethPrice;
+    uint[] public liquidityLog;
+    uint public lastLiquidityUpdate;
 
     struct Score {
         uint playerId;
@@ -115,6 +117,24 @@ contract TestContract {
         minClamp = _min*100;
         midClamp = _mid*100;
         maxClamp = _max*100;
+    }
+
+    function updateLiquidity(uint currentLiquidity) public {
+         require(block.timestamp > lastLiquidityUpdate + 1 days, "Already updated today!");
+
+        if(liquidityLog.length >= 7) {
+            for (uint i = 0; i < liquidityLog.length - 1; i++) {
+                liquidityLog[i] = liquidityLog[i + 1];
+            }
+            liquidityLog[liquidityLog.length - 1] = currentLiquidity;
+        } else {
+            liquidityLog.push(currentLiquidity);
+        }
+        lastLiquidityUpdate = block.timestamp;
+    }
+
+    function getLiquidityLog() public view returns (uint[] memory) {
+        return liquidityLog;
     }
 
 }

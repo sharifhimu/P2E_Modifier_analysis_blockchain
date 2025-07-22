@@ -74,6 +74,8 @@ public class LiquidityCalculation : MonoBehaviour
     }
 
 
+
+
     private async Task<(double, double, decimal)> CalculateModifier12(){
         var ( reserve0, reserve1, maxLiquidity, smallAvgPrice, bigAvgPrice ) = await CalculationsFromApiData();
         double liquidity = reserve0;
@@ -87,6 +89,7 @@ public class LiquidityCalculation : MonoBehaviour
             liquidity = reserve1;
             marketPrice = (decimal)(reserve0/reserve1);
         }
+
 
         // modifier 1 calculate
         var modifier1 = Math.Clamp( liquidity/maxLiquidity, minModifier, maxModifier ); 
@@ -182,8 +185,10 @@ public class LiquidityCalculation : MonoBehaviour
 
     private async Task<( double, double, double, decimal, decimal )> CalculationsFromApiData()
     {
-        // modifier 1 related calculation
-        var ( reserveValue, reserve0, reserve1 ) = await CallGetReserve(); // live on chain data
+
+        double reserveValue = SDKManager.Instance.reserveValue;
+        double reserve0 = SDKManager.Instance.reserve0;
+        double reserve1 = SDKManager.Instance.reserve1;
 
         ( double dayLiquidity, decimal smallDayPrice, decimal bigDayPrice ) = await OHLCVData("day");
         ( double hourLiquidity, decimal smallHourPrice, decimal bigHourPrice ) = await OHLCVData("hour");
@@ -206,35 +211,6 @@ public class LiquidityCalculation : MonoBehaviour
 
         //
         return ( reserve0, reserve1, finalMaxLiquidity, smallerPrice, biggerPrice ); 
-    }
-
-
-
-    private async Task<(double, double, double)> CallGetReserve(){
-
-        // await GetPairAddress();
-
-        var web3 = new Web3(SDKManager.Instance.testRpcUrl);
-        var contract = web3.Eth.GetContract(SDKManager.Instance.testAbi, SDKManager.Instance.pairContractAddress);
-        var getReservesFunction = contract.GetFunction("getReserves");
-
-        var reserves = await getReservesFunction.CallDeserializingToObjectAsync<Reserves>();
-
-        var (token0, token1) =   await checkDecimals(web3);
-
-        // Debug.Log("tokenDecimals " + (  token0, token1 ) );
-
-        double normalizedReserve0 = (double)reserves.Reserve0 / Math.Pow(10, token0);
-        double normalizedReserve1 = (double)reserves.Reserve1 / Math.Pow(10, token1);
-
-        double liquidity = (double)Math.Sqrt(normalizedReserve0 * normalizedReserve1 );
-        // onchainLiquidity = liquidity;
-         Debug.Log($"Reserve0: {normalizedReserve0}");
-         Debug.Log($"Reserve1: {normalizedReserve1}");
-        // Debug.Log($"liquidity from bonk/weth chain: {liquidity}");
-
-        return ( liquidity, normalizedReserve0, normalizedReserve1 );
-
     }
 
 
@@ -287,40 +263,6 @@ public class LiquidityCalculation : MonoBehaviour
 
     }
 
-
-
-    private async Task<(int, int)> checkDecimals(Web3 web3){
-
-        // Create contract query handlers
-        var token0Handler = web3.Eth.GetContractQueryHandler<Token0Function>();
-        var token1Handler = web3.Eth.GetContractQueryHandler<Token1Function>();
-
-        // Query token0 and token1 addresses
-        var token0Address = await token0Handler
-            .QueryAsync<string>(SDKManager.Instance.pairContractAddress, new Token0Function());
-
-        var token1Address = await token1Handler
-            .QueryAsync<string>(SDKManager.Instance.pairContractAddress, new Token1Function());
-
-        // Debug.Log($"Token0 Address: {token0Address}");
-        // Debug.Log($"Token1 Address: {token1Address}");
-
-        var decimalsHandler = web3.Eth.GetContractQueryHandler<DecimalsFunction>();
-
-        var token0Decimals = await decimalsHandler
-        .QueryAsync<byte>(token0Address, new DecimalsFunction());
-
-        // Query decimals for token1
-        var token1Decimals = await decimalsHandler
-            .QueryAsync<byte>(token1Address, new DecimalsFunction());
-
-        // Debug.Log($"Token0 Decimals: {token0Decimals}");
-        // Debug.Log($"Token1 Decimals: {token1Decimals}");
-
-        return (token0Decimals, token1Decimals);
-
-    }
-
     private (decimal, decimal) CalculateAveragePrice(List<decimal> closingPrices)
     {
         if (closingPrices.Count == 0) return (0, 0);
@@ -367,30 +309,6 @@ public class LiquidityCalculation : MonoBehaviour
 
         return (exchangeableTokens, ethReceived, usdReceived );
     }
-
-    [FunctionOutput]
-    public class Reserves : IFunctionOutputDTO
-    {
-        [Parameter("uint112", "reserve0", 1)]
-        public BigInteger Reserve0 { get; set; }
-
-        [Parameter("uint112", "reserve1", 2)]
-        public BigInteger Reserve1 { get; set; }
-
-        [Parameter("uint32", "blockTimestampLast", 3)]
-        public uint BlockTimestampLast { get; set; }
-    }
-
-    // This will get token0 address
-    [Function("token0", "address")]
-    public class Token0Function : FunctionMessage { }
-
-    // This will get token1 address
-    [Function("token1", "address")]
-    public class Token1Function : FunctionMessage { }
-
-    [Function("decimals", "uint8")]
-    public class DecimalsFunction : FunctionMessage { }
 
     private async Task GetPairAddress(){
           
