@@ -68,7 +68,7 @@
               "RelativeDocumentMoniker": "Assets\\scripts\\LiquidityCalculation.cs",
               "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\LiquidityCalculation.cs",
               "RelativeToolTip": "Assets\\scripts\\LiquidityCalculation.cs",
-              "ViewState": "AgIAAKEAAAAAAAAAAAAAAKkAAABdAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAAAAF0AAABMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-09T03:01:28.037Z",
               "EditorCaption": ""
@@ -81,7 +81,7 @@
               "RelativeDocumentMoniker": "Assets\\scripts\\SDKManager.cs",
               "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\SDKManager.cs",
               "RelativeToolTip": "Assets\\scripts\\SDKManager.cs",
-              "ViewState": "AgIAAOgAAAAAAAAAAAAAAAwBAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAALEAAAAAAAAAAAAAAN8AAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-09T03:31:58.917Z",
               "EditorCaption": ""
@@ -96,7 +96,8 @@
               "RelativeToolTip": "Assets\\scripts\\stressTesterModifier2.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0AAABPAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T06:10:49.578Z"
+              "WhenOpened": "2025-06-18T06:10:49.578Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -108,7 +109,8 @@
               "RelativeToolTip": "Assets\\scripts\\LogDisplayManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T02:48:02.454Z"
+              "WhenOpened": "2025-06-10T02:48:02.454Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -120,7 +122,8 @@
               "RelativeToolTip": "Assets\\scripts\\structureDefine\\Score.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T03:07:57.223Z"
+              "WhenOpened": "2025-06-09T03:07:57.223Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -132,7 +135,8 @@
               "RelativeToolTip": "Assets\\scripts\\structureDefine\\Reserves.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-21T06:15:21.245Z"
+              "WhenOpened": "2025-07-21T06:15:21.245Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -144,7 +148,8 @@
               "RelativeToolTip": "Assets\\scripts\\structureDefine\\GetAllDataOutputDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T03:07:25.081Z"
+              "WhenOpened": "2025-06-09T03:07:25.081Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -156,7 +161,8 @@
               "RelativeToolTip": "Assets\\scripts\\Log.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABqGQAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T05:45:20.458Z"
+              "WhenOpened": "2025-06-09T05:45:20.458Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -168,7 +174,8 @@
               "RelativeToolTip": "Assets\\scripts\\StressTesterModifier1.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAABIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T04:01:04.626Z"
+              "WhenOpened": "2025-06-18T04:01:04.626Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -180,7 +187,8 @@
               "RelativeToolTip": "Assets\\scripts\\StressTester.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-17T04:41:06.71Z"
+              "WhenOpened": "2025-06-17T04:41:06.71Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -192,7 +200,8 @@
               "RelativeToolTip": "Assets\\scripts\\InputManager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAABqGQAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T04:00:12.189Z"
+              "WhenOpened": "2025-06-09T04:00:12.189Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -204,7 +213,8 @@
               "RelativeToolTip": "Assets\\scripts\\Scene1Manager.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T01:44:47.894Z"
+              "WhenOpened": "2025-06-20T01:44:47.894Z",
+              "EditorCaption": ""
             }
           ]
         }

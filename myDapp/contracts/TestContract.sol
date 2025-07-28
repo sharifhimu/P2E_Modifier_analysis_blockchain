@@ -120,9 +120,13 @@ contract TestContract {
     }
 
     function updateLiquidity(uint currentLiquidity) public {
-         require(block.timestamp > lastLiquidityUpdate + 1 days, "Already updated today!");
+        // Get current day (days since Unix epoch)
+        uint currentDay = block.timestamp / 1 days;
+        uint lastUpdateDay = lastLiquidityUpdate / 1 days;
 
-        if(liquidityLog.length >= 7) {
+        require(currentDay > lastUpdateDay, "Already updated today!");
+
+        if(liquidityLog.length >= 30) {
             for (uint i = 0; i < liquidityLog.length - 1; i++) {
                 liquidityLog[i] = liquidityLog[i + 1];
             }
