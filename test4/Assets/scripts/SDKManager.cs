@@ -206,7 +206,7 @@ public class SDKManager : MonoBehaviour
         return ( mean, SMAstdDev );
     }
 
-    public static (double minClamp, double maxClamp, double midClamp, double mean, double stdDev) CalculateZScoreClamp(List<double> liquidityData, double zThreshold = 1.0)
+    public static (double minClamp, double maxClamp, double midClamp) CalculateZScoreClamp(List<double> liquidityData, double zThreshold = 1.0)
     {   
         double mean = liquidityData.Average();
         double variance = liquidityData.Sum(x => Math.Pow(x - mean, 2)) / liquidityData.Count;
@@ -218,127 +218,152 @@ public class SDKManager : MonoBehaviour
             .ToList();
 
         if (filtered.Count == 0)
-            filtered = liquidityData; // fallback
+            filtered = liquidityData; 
+
+        double filteredMean = filtered.Average();
 
         double minClamp = filtered.Min();
         double maxClamp = filtered.Max();
-        double midClamp = mean;
+        double midClamp = filteredMean;
 
-        return (minClamp, maxClamp, midClamp, mean, stdDev);
+        return (minClamp, maxClamp, midClamp);
     }
+
+    public static (double minClamp, double maxClamp, double midClamp) CalculateIQRClamp(List<double> liquidityData)
+    {
+        if (liquidityData == null || liquidityData.Count < 4)
+            throw new ArgumentException("Not enough data for IQR calculation.");
+
+        List<double> sorted = new List<double>(liquidityData);
+        sorted.Sort();
+        int count = sorted.Count;
+
+        // Quartile positions
+        double q1 = sorted[(int)(0.25 * (count - 1))];
+        double q3 = sorted[(int)(0.75 * (count - 1))];
+        double iqr = q3 - q1;
+
+        double minClamp = q1 - 1.5 * iqr;
+        double maxClamp = q3 + 1.5 * iqr;
+        double midClamp = (q1 + q3) / 2;
+
+        // Q2 is the median
+        double q2 = (count % 2 == 0) ? 
+            (sorted[count / 2 - 1] + sorted[count / 2]) / 2.0 : 
+            sorted[count / 2];
+
+        return (minClamp, maxClamp, midClamp );
+    }
+
+    private (double midWeight, double tightWeight, double wideWeight) CalculateWeights(int count)
+    {
+        // If data is low, prioritize wide range; else, prioritize tight clamp
+        double factor = Mathf.Clamp01(count / 30f); // Normalize count to [0, 1]
+        double midWeight = 0.3 + 0.2 * (1 - factor);  // More weight when data is low
+        double tightWeight = 0.4 * factor;
+        double wideWeight = 1.0 - tightWeight;
+
+        return (midWeight, tightWeight, wideWeight);
+    }
+
+
+    ClampResult EvaluateClampMethod(string methodName, ClampResult clamp, List<double> logDoubles, double currentNormalized)
+    {
+        double range = logDoubles.Max() - logDoubles.Min();
+        if (range == 0) range = 1e-9; // Prevent divide-by-zero
+
+        double wideness = clamp.Max - clamp.Min;
+        double midError = Math.Abs(currentNormalized - clamp.Mid);
+        double tightness = 1.0 - wideness;
+
+        var (midWeight, tightWeight, wideWeight) = CalculateWeights(logDoubles.Count);
+
+        double errorScore = (midError * midWeight) + (tightness * tightWeight) + ((1.0 - wideness) * wideWeight);
+
+        return new ClampResult
+        {
+            Name = methodName,
+            Min = clamp.Min,
+            Mid = clamp.Mid,
+            Max = clamp.Max,
+            Error = errorScore,
+            NormMin = (clamp.Min - logDoubles.Min()) / range,
+            NormMid = (clamp.Mid - logDoubles.Min()) / range,
+            NormMax = (clamp.Max - logDoubles.Min()) / range
+        };
+    }
+
+
+
+
+    private ClampResult SelectBestClampMethod(List<double> logDoubles, double currentNormalized)
+    {
+
+        var (smaMean, smaStdDev) = CalculateSMA(logDoubles);
+        var smaClamp = new ClampResult { Min = smaMean - smaStdDev, Max = smaMean + smaStdDev, Mid = smaMean };
+
+        var (emaMean, emaStdDev) = CalculateEMA(logDoubles, logDoubles.Count);
+        var emaClamp = new ClampResult { Min = emaMean - emaStdDev, Max = emaMean + emaStdDev, Mid = emaMean };
+
+        var (minZ, maxZ, midZ) = CalculateZScoreClamp(logDoubles, 1.0);
+        var zClamp = new ClampResult { Min = minZ, Max = maxZ, Mid = midZ };
+
+        var (minIQR, maxIQR, midIQR) = CalculateIQRClamp(logDoubles);
+        var iqrClamp = new ClampResult { Min = minIQR, Max = maxIQR, Mid = midIQR };
+
+        List<ClampResult> clampResults = new List<ClampResult>
+        {
+            EvaluateClampMethod("SMA", smaClamp, logDoubles, currentNormalized),
+            EvaluateClampMethod("EMA", emaClamp, logDoubles, currentNormalized),
+            EvaluateClampMethod("Z-Score", zClamp, logDoubles, currentNormalized),
+            EvaluateClampMethod("IQR", iqrClamp, logDoubles, currentNormalized)
+        };
+
+        foreach (var c in clampResults)
+        {
+            Debug.Log($"Clamp Method {c.Name} => Min: {c.Min:F4}, Mid: {c.Mid:F4}, Max: {c.Max:F4}, NormMin: {c.NormMin:F4}, NormMid: {c.NormMid:F4}, NormMax: {c.NormMax:F4}, Error: {c.Error:F4}");
+        }
+
+        return clampResults.OrderBy(c => c.Error).First();
+    }
+
+
 
     private async void Start()
     {
         var (liquidity, normalizedReserve0, normalizedReserve1) = await CallGetReserve();
-
         reserveValue = liquidity;
         reserve0 = normalizedReserve0;
         reserve1 = normalizedReserve1;
 
-        // Push new liquidity to smart contract
-        var status = await pushLiquidity(liquidity);
-
-        if (!status)
+        if (!await pushLiquidity(liquidity))
             return;
 
-        // Fetch 30-day liquidity logs
         List<uint> log = await GetLiquidityLog();
         List<double> logDoubles = log.Select(x => (double)x).ToList();
 
-        // Prevent divide-by-zero and invalid range
         if (logDoubles.Count < 2 || logDoubles.Max() == logDoubles.Min())
         {
             Debug.LogWarning("Not enough data or range is zero.");
             return;
         }
 
-        // STEP 1: SMA Clamp
-        (double smaMean, double smaStd) = CalculateSMA(logDoubles);
-        double smaMinClamp = smaMean - smaStd;
-        double smaMaxClamp = smaMean + smaStd;
-        double smaMidClamp = smaMean;
-
-        // STEP 2: EMA Clamp
-        int period = logDoubles.Count;
-        (double emaMean, double emaStd) = CalculateEMA(logDoubles, period);
-        double emaMinClamp = emaMean - emaStd;
-        double emaMaxClamp = emaMean + emaStd;
-        double emaMidClamp = emaMean;
-
-        // STEP 3: Z-Score Clamp
-        (double zMinClamp, double zMaxClamp, double zMidClamp, double zMean, double zStd) = CalculateZScoreClamp(logDoubles, zThreshold: 1.0);
-        
-
-        // STEP 4: Normalize current liquidity
         double scaledLiquidity = liquidity * 1e6;
         double range = logDoubles.Max() - logDoubles.Min();
-        double currentNormalized = (scaledLiquidity  - logDoubles.Min()) / range;
+        double currentNormalized = (scaledLiquidity - logDoubles.Min()) / range;
 
-        Debug.Log("logDoubles (Raw): " + string.Join(", ", logDoubles.Select(x => x.ToString("F4"))));
-        Debug.Log($" liquidity: {liquidity}, scaledLiquidity: {scaledLiquidity}, logDoubles => min: { logDoubles.Min() }, max: { logDoubles.Max() } ");
-        Debug.Log($"range => { range }, currentNormalized: { currentNormalized } ");
-        Debug.Log($"sma => min: {smaMinClamp}, max => {smaMaxClamp}, mid: {smaMidClamp}, mean: {smaMean}, std: {smaStd} ");
-        Debug.Log($"ema => min: {emaMinClamp}, max => {emaMaxClamp}, mid: {emaMidClamp}, mean: {emaMean}, std: {emaStd} ");
-        Debug.Log($"z-score => min: {zMinClamp}, max => {zMaxClamp}, mid: {zMidClamp}, mean: {zMean}, std: {zStd} ");
+        ClampResult bestClamp = SelectBestClampMethod(logDoubles, currentNormalized);
 
+        Debug.Log("LogDoubles: " + string.Join(", ", logDoubles.Select(v => v.ToString("F2"))));
+        Debug.Log($"Selected Clamp: {bestClamp.Name}");
+        Debug.Log($"Final Normalized Clamp => Min: {bestClamp.NormMin:F4}, Mid: {bestClamp.NormMid:F4}, Max: {bestClamp.NormMax:F4}");
 
-        // STEP 5: Normalize all clamps
-        double normSmaMin = Math.Max(0, (smaMinClamp - logDoubles.Min()) / range );
-        double normSmaMax = (smaMaxClamp - logDoubles.Min()) / range;
-        double normSmaMid = (smaMidClamp - logDoubles.Min()) / range;
-
-        double normEmaMin = Math.Max( 0, (emaMinClamp - logDoubles.Min()) / range );
-        double normEmaMax = (emaMaxClamp - logDoubles.Min()) / range;
-        double normEmaMid = (emaMidClamp - logDoubles.Min()) / range;
-
-        double normZMin = Math.Max( 0, (zMinClamp - logDoubles.Min()) / range );
-        double normZMax = (zMaxClamp - logDoubles.Min()) / range;
-        double normZMid = (zMidClamp - logDoubles.Min()) / range;
-
-        // STEP 6: Calculate Errors from mid clamp (lowest error wins)
-        double errorSMA = Math.Abs(currentNormalized - normSmaMid);
-        double errorEMA = Math.Abs(currentNormalized - normEmaMid);
-        double errorZ = Math.Abs(currentNormalized - normZMid);
-
-        // Debug each clamp's normalized range + error
-        Debug.Log($" SMA Clamp => min: {normSmaMin:F4}, mid: {normSmaMid:F4}, max: {normSmaMax:F4}, error: {errorSMA:F4}");
-        Debug.Log($" EMA Clamp => min: {normEmaMin:F4}, mid: {normEmaMid:F4}, max: {normEmaMax:F4}, error: {errorEMA:F4}");
-        Debug.Log($" Z-Score Clamp => min: {normZMin:F4}, mid: {normZMid:F4}, max: {normZMax:F4}, error: {errorZ:F4}");
-
-
-        // STEP 7: Select Best Clamp based on least error
-        double normMinClamp, normMaxClamp, normMidClamp;
-
-        if (errorSMA <= errorEMA && errorSMA <= errorZ)
-        {
-            normMinClamp = normSmaMin;
-            normMaxClamp = normSmaMax;
-            normMidClamp = normSmaMid;
-            Debug.Log("Selected SMA Clamp");
-        }
-        else if (errorEMA <= errorSMA && errorEMA <= errorZ)
-        {
-            normMinClamp = normEmaMin;
-            normMaxClamp = normEmaMax;
-            normMidClamp = normEmaMid;
-            Debug.Log("Selected EMA Clamp");
-        }
-        else
-        {
-            normMinClamp = normZMin;
-            normMaxClamp = normZMax;
-            normMidClamp = normZMid;
-            Debug.Log("Selected Z-Score Clamp");
-        }
-
-        Debug.Log($"Final Normalized Clamp => Min: {normMinClamp:F4}, Mid: {normMidClamp:F4}, Max: {normMaxClamp:F4}");
-
-        // STEP 8: Apply
-        minModifier = normMinClamp;
-        maxModifier = normMaxClamp;
-        midModifier = normMidClamp;
-    
+        minModifier = bestClamp.NormMin;
+        midModifier = bestClamp.NormMid;
+        maxModifier = bestClamp.NormMax;
     }
+
+
 
 
     // Update is called once per frame
@@ -378,9 +403,22 @@ public class SDKManager : MonoBehaviour
         return (token0Decimals, token1Decimals);
 
     }
-    
+
 
 }
+
+    public class ClampResult
+    {
+        public string Name;
+        public double Min;
+        public double Mid;
+        public double Max;
+        public double Error;
+
+        public double NormMin;
+        public double NormMid;
+        public double NormMax;
+    }
 
 [FunctionOutput]
 public class ClampOutputDTO : IFunctionOutputDTO
@@ -406,3 +444,4 @@ public class Token1Function : FunctionMessage { }
 
 [Function("decimals", "uint8")]
 public class DecimalsFunction : FunctionMessage { }
+
