@@ -7,6 +7,8 @@ using System.Numerics;
 // using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Text;
 
 using Nethereum.Web3;
 using Nethereum.Hex.HexTypes;
@@ -206,54 +208,6 @@ public class SDKManager : MonoBehaviour
         return ( mean, SMAstdDev );
     }
 
-    public static (double minClamp, double maxClamp, double midClamp) CalculateZScoreClamp(List<double> liquidityData, double zThreshold = 1.0)
-    {   
-        double mean = liquidityData.Average();
-        double variance = liquidityData.Sum(x => Math.Pow(x - mean, 2)) / liquidityData.Count;
-        double stdDev = Math.Sqrt(variance);
-
-        // Z-score filtering
-        List<double> filtered = liquidityData
-            .Where(x => Math.Abs((x - mean) / stdDev) <= zThreshold)
-            .ToList();
-
-        if (filtered.Count == 0)
-            filtered = liquidityData; 
-
-        double filteredMean = filtered.Average();
-
-        double minClamp = filtered.Min();
-        double maxClamp = filtered.Max();
-        double midClamp = filteredMean;
-
-        return (minClamp, maxClamp, midClamp);
-    }
-
-    public static (double minClamp, double maxClamp, double midClamp) CalculateIQRClamp(List<double> liquidityData)
-    {
-        if (liquidityData == null || liquidityData.Count < 4)
-            throw new ArgumentException("Not enough data for IQR calculation.");
-
-        List<double> sorted = new List<double>(liquidityData);
-        sorted.Sort();
-        int count = sorted.Count;
-
-        // Quartile positions
-        double q1 = sorted[(int)(0.25 * (count - 1))];
-        double q3 = sorted[(int)(0.75 * (count - 1))];
-        double iqr = q3 - q1;
-
-        double minClamp = q1 - 1.5 * iqr;
-        double maxClamp = q3 + 1.5 * iqr;
-        double midClamp = (q1 + q3) / 2;
-
-        // Q2 is the median
-        double q2 = (count % 2 == 0) ? 
-            (sorted[count / 2 - 1] + sorted[count / 2]) / 2.0 : 
-            sorted[count / 2];
-
-        return (minClamp, maxClamp, midClamp );
-    }
 
     private (double midWeight, double tightWeight, double wideWeight) CalculateWeights(int count)
     {
@@ -270,15 +224,15 @@ public class SDKManager : MonoBehaviour
     ClampResult EvaluateClampMethod(string methodName, ClampResult clamp, List<double> logDoubles, double currentNormalized)
     {
         double range = logDoubles.Max() - logDoubles.Min();
-        if (range == 0) range = 1e-9; // Prevent divide-by-zero
+        if (range < 1e-6) range = 1e-6; // Prevent divide-by-zero
 
-        double wideness = clamp.Max - clamp.Min;
-        double midError = Math.Abs(currentNormalized - clamp.Mid);
-        double tightness = 1.0 - wideness;
+        // double wideness = clamp.Max - clamp.Min;
+        // double midError = Math.Abs(currentNormalized - clamp.Mid);
+        // double tightness = 1.0 - wideness;
 
-        var (midWeight, tightWeight, wideWeight) = CalculateWeights(logDoubles.Count);
+        // var (midWeight, tightWeight, wideWeight) = CalculateWeights(logDoubles.Count);
 
-        double errorScore = (midError * midWeight) + (tightness * tightWeight) + ((1.0 - wideness) * wideWeight);
+        // double errorScore = (midError * midWeight) + (tightness * tightWeight) + ((1.0 - wideness) * wideWeight);
 
         return new ClampResult
         {
@@ -286,7 +240,7 @@ public class SDKManager : MonoBehaviour
             Min = clamp.Min,
             Mid = clamp.Mid,
             Max = clamp.Max,
-            Error = errorScore,
+            // Error = errorScore,
             NormMin = (clamp.Min - logDoubles.Min()) / range,
             NormMid = (clamp.Mid - logDoubles.Min()) / range,
             NormMax = (clamp.Max - logDoubles.Min()) / range
@@ -294,29 +248,16 @@ public class SDKManager : MonoBehaviour
     }
 
 
-
-
     private ClampResult SelectBestClampMethod(List<double> logDoubles, double currentNormalized)
     {
-
-        var (smaMean, smaStdDev) = CalculateSMA(logDoubles);
-        var smaClamp = new ClampResult { Min = smaMean - smaStdDev, Max = smaMean + smaStdDev, Mid = smaMean };
 
         var (emaMean, emaStdDev) = CalculateEMA(logDoubles, logDoubles.Count);
         var emaClamp = new ClampResult { Min = emaMean - emaStdDev, Max = emaMean + emaStdDev, Mid = emaMean };
 
-        var (minZ, maxZ, midZ) = CalculateZScoreClamp(logDoubles, 1.0);
-        var zClamp = new ClampResult { Min = minZ, Max = maxZ, Mid = midZ };
-
-        var (minIQR, maxIQR, midIQR) = CalculateIQRClamp(logDoubles);
-        var iqrClamp = new ClampResult { Min = minIQR, Max = maxIQR, Mid = midIQR };
-
         List<ClampResult> clampResults = new List<ClampResult>
         {
-            EvaluateClampMethod("SMA", smaClamp, logDoubles, currentNormalized),
-            EvaluateClampMethod("EMA", emaClamp, logDoubles, currentNormalized),
-            EvaluateClampMethod("Z-Score", zClamp, logDoubles, currentNormalized),
-            EvaluateClampMethod("IQR", iqrClamp, logDoubles, currentNormalized)
+            // EvaluateClampMethod("SMA", smaClamp, logDoubles, currentNormalized),
+            EvaluateClampMethod("EMA", emaClamp, logDoubles, currentNormalized)
         };
 
         foreach (var c in clampResults)
@@ -324,7 +265,8 @@ public class SDKManager : MonoBehaviour
             Debug.Log($"Clamp Method {c.Name} => Min: {c.Min:F4}, Mid: {c.Mid:F4}, Max: {c.Max:F4}, NormMin: {c.NormMin:F4}, NormMid: {c.NormMid:F4}, NormMax: {c.NormMax:F4}, Error: {c.Error:F4}");
         }
 
-        return clampResults.OrderBy(c => c.Error).First();
+       // return clampResults.OrderBy(c => c.Error).First();
+        return clampResults.First();
     }
 
 
@@ -340,7 +282,7 @@ public class SDKManager : MonoBehaviour
             return;
 
         List<uint> log = await GetLiquidityLog();
-        List<double> logDoubles = log.Select(x => (double)x).ToList();
+        List<double> logDoubles = log.Select(x => (double)x/1e6).ToList();
 
         if (logDoubles.Count < 2 || logDoubles.Max() == logDoubles.Min())
         {
@@ -348,7 +290,7 @@ public class SDKManager : MonoBehaviour
             return;
         }
 
-        double scaledLiquidity = liquidity * 1e6;
+        double scaledLiquidity = liquidity;
         double range = logDoubles.Max() - logDoubles.Min();
         double currentNormalized = (scaledLiquidity - logDoubles.Min()) / range;
 
@@ -361,8 +303,44 @@ public class SDKManager : MonoBehaviour
         minModifier = bestClamp.NormMin;
         midModifier = bestClamp.NormMid;
         maxModifier = bestClamp.NormMax;
+
+        string path = Application.persistentDataPath + "/clamp_range.csv";
+        SaveClampRangeToFile(path, bestClamp, DateTime.Now);
+
     }
 
+    public void SaveClampRangeToFile(string filePath, ClampResult clamp, DateTime timestamp)
+    {
+        // Ensure directory exists
+        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+       // Skip saving if already saved today
+        if (FileChecker.AlreadySavedToday(filePath))
+        {
+            Debug.Log("Clamp already saved today. Skipping save.");
+            return;
+        }
+
+        // Add header if file doesn't exist
+        if (!File.Exists(filePath))
+        {
+            string header = "Timestamp,Min,Mid,Max";
+            File.WriteAllText(filePath, header + "\n", Encoding.UTF8);
+        }
+
+        // Format row
+        string row = string.Format(
+            "{0},{1:F4},{2:F4},{3:F4}",
+            timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
+            clamp.NormMin,
+            clamp.NormMid,
+            clamp.NormMax
+        );
+
+        // Append data
+        File.AppendAllText(filePath, row + "\n", Encoding.UTF8);
+        Debug.Log(" Clamp range saved: " + row);
+    }
 
 
 
@@ -407,18 +385,18 @@ public class SDKManager : MonoBehaviour
 
 }
 
-    public class ClampResult
-    {
-        public string Name;
-        public double Min;
-        public double Mid;
-        public double Max;
-        public double Error;
+public class ClampResult
+{
+    public string Name;
+    public double Min;
+    public double Mid;
+    public double Max;
+    public double Error;
 
-        public double NormMin;
-        public double NormMid;
-        public double NormMax;
-    }
+    public double NormMin;
+    public double NormMid;
+    public double NormMax;
+}
 
 [FunctionOutput]
 public class ClampOutputDTO : IFunctionOutputDTO

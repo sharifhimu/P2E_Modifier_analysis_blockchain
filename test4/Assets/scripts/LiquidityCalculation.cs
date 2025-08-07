@@ -7,6 +7,8 @@ using System.Numerics;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 using Nethereum.Web3;
 using Nethereum.ABI.FunctionEncoding.Attributes;
@@ -25,24 +27,25 @@ public class LiquidityCalculation : MonoBehaviour
     // private double onchainLiquidity = 0;
     private double finalMaxLiquidity = 0;
 
-    string testcontractAddress = "0xA4e8331294C96EBcC29C6A2d577aB39E22BdAe8e";
-    string testabi = @"[{""inputs"":[],""stateMutability"":""nonpayable"",""type"":""constructor""},{""anonymous"":false,""inputs"":[{""indexed"":false,""internalType"":""address"",""name"":""sender"",""type"":""address""},{""indexed"":false,""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""indexed"":false,""internalType"":""string"",""name"":""wallet"",""type"":""string""},{""indexed"":false,""internalType"":""uint256"",""name"":""coin"",""type"":""uint256""},{""indexed"":false,""internalType"":""uint256"",""name"":""character"",""type"":""uint256""}],""name"":""ScoreSubmitted"",""type"":""event""},{""inputs"":[],""name"":""ethPrice"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""lastLiquidityUpdate"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""name"":""liquidityLog"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""maxClamp"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""midClamp"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""minClamp"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""name"":""playerAddresses"",""outputs"":[{""internalType"":""address"",""name"":"""",""type"":""address""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""address"",""name"":"""",""type"":""address""}],""name"":""playerScores"",""outputs"":[{""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""internalType"":""string"",""name"":""walletAddress"",""type"":""string""},{""internalType"":""uint256"",""name"":""coinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""characterIndex"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""exchangedAmount"",""type"":""uint256""},{""internalType"":""bool"",""name"":""exists"",""type"":""bool""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""hello"",""outputs"":[{""internalType"":""string"",""name"":"""",""type"":""string""}],""stateMutability"":""pure"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""uint256"",""name"":""_price"",""type"":""uint256""}],""name"":""setPrice"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[{""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""internalType"":""string"",""name"":""add"",""type"":""string""},{""internalType"":""uint256"",""name"":""coinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""characterIndex"",""type"":""uint256""}],""name"":""Sendscore"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[{""internalType"":""uint256"",""name"":""_newCoinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""_newCharacterIndex"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""_exchangedAmount"",""type"":""uint256""}],""name"":""updateScoreByPlayerId"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[{""internalType"":""uint256"",""name"":""_amount"",""type"":""uint256""}],""name"":""setExchangeAmount"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[],""name"":""getAllData"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""},{""components"":[{""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""internalType"":""string"",""name"":""walletAddress"",""type"":""string""},{""internalType"":""uint256"",""name"":""coinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""characterIndex"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""exchangedAmount"",""type"":""uint256""},{""internalType"":""bool"",""name"":""exists"",""type"":""bool""}],""internalType"":""struct TestContract.Score[]"",""name"":"""",""type"":""tuple[]""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""address"",""name"":""_wallet"",""type"":""address""}],""name"":""getPlayerData"",""outputs"":[{""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""internalType"":""string"",""name"":""walletAddress"",""type"":""string""},{""internalType"":""uint256"",""name"":""coinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""characterIndex"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""exchangedAmount"",""type"":""uint256""},{""internalType"":""bool"",""name"":""exists"",""type"":""bool""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""getClamps"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""},{""internalType"":""uint256"",""name"":"""",""type"":""uint256""},{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""uint256"",""name"":""_min"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""_mid"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""_max"",""type"":""uint256""}],""name"":""setModifiers"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[{""internalType"":""uint256"",""name"":""currentLiquidity"",""type"":""uint256""}],""name"":""updateLiquidity"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[],""name"":""getLiquidityLog"",""outputs"":[{""internalType"":""uint256[]"",""name"":"""",""type"":""uint256[]""}],""stateMutability"":""view"",""type"":""function"",""constant"":true}]";
-
-
     async void Start()
     {
         // Debug.Log("called");
-         var ( modifier1, modifier2, marketPrice )  = await CalculateModifier12();
+         var ( modifier1, marketPrice, liquidity )  = await CalculateModifier12();
          SDKManager.Instance.marketPrice = marketPrice;
-
-         var modifier3 = await CalculateModifier3();
          
-         SDKManager.Instance.modifierOne = modifier1;
-         SDKManager.Instance.modifierTwo = modifier2;
-         SDKManager.Instance.modifierThree = modifier3;
+         // SDKManager.Instance.modifierOne = modifier1;
+         // SDKManager.Instance.modifierTwo = modifier2;
+         // SDKManager.Instance.modifierThree = modifier3;
 
-         SDKManager.Instance.modifier1 = HybridFinalModifier( modifier1, modifier2, modifier3 );
+         SDKManager.Instance.modifier1 = modifier1;
+         double effectivePrice = (double)marketPrice*modifier1;
          // Debug.Log($"modifier: {modifierVal}");
+
+        Debug.Log($" marketprice: {marketPrice}, effectivePrice: {effectivePrice} ");
+
+
+         string modifierPath = Application.persistentDataPath + "/modifier1_log.csv";
+         SaveModifier1ToFile(modifierPath, modifier1, liquidity, marketPrice, effectivePrice, DateTime.Now);
     }
 
     void Update()
@@ -53,114 +56,52 @@ public class LiquidityCalculation : MonoBehaviour
 
 
 
-    private async Task<(double, double, decimal)> CalculateModifier12(){
-        var ( reserve0, reserve1, maxLiquidity, smallAvgPrice, bigAvgPrice ) = await CalculationsFromApiData();
+    private async Task<(double, decimal, double)> CalculateModifier12()
+    {
+        var (reserve0, reserve1, maxLiquidity, reserveValue) = await CalculationsFromApiData();
         double liquidity = reserve0;
-        double minModifier = SDKManager.Instance.minModifier;
-        double maxModifier = SDKManager.Instance.maxModifier;
-        decimal marketPrice = (decimal)(reserve1/reserve0);
 
-        if( reserve0 > reserve1 ) {
-            liquidity = reserve0;
-        } else {
+        double minModifier = SDKManager.Instance.minModifier;
+        double midModifier = SDKManager.Instance.midModifier;
+        double maxModifier = SDKManager.Instance.maxModifier;
+
+        decimal marketPrice = (decimal)(reserve1 / reserve0);
+
+        if (reserve0 < reserve1)
+        {   
             liquidity = reserve1;
-            marketPrice = (decimal)(reserve0/reserve1);
+            marketPrice = (decimal)(reserve0 / reserve1);
         }
 
+        double midLiquidity = maxLiquidity * 0.5;
+        double modifier1Calc;
+        double t;
 
-        // modifier 1 calculate
-        var modifier1 = Math.Clamp( liquidity/maxLiquidity, minModifier, maxModifier ); 
+        if (liquidity <= midLiquidity)
+        {
+            // Scale between min → mid
+            t = liquidity / midLiquidity;
+            modifier1Calc = minModifier + t * (midModifier - minModifier);
+        }
+        else
+        {
+            // Scale between mid → max
+            t = (liquidity - midLiquidity) / (maxLiquidity - midLiquidity);
+            modifier1Calc = midModifier + t * (maxModifier - midModifier);
+        }
 
-        // modifier 2 calculate 
-        float marketPriceFloat = (float)marketPrice;
-        var modifier2 = marketPrice > bigAvgPrice ? SDKManager.Instance.minModifier : 
-                            ( marketPrice < smallAvgPrice ? SDKManager.Instance.maxModifier : SDKManager.Instance.midModifier );
+        double modifier1 = Math.Clamp(modifier1Calc, minModifier, maxModifier);
 
         Debug.Log($"liquidity: {liquidity}, maxLiquidity: {maxLiquidity}, reserve0: {reserve0}, reserve1: {reserve1}");
-        Debug.Log($"liquidity/maxLiquidity: {liquidity/maxLiquidity}");
-        // Debug.Log($"marketPrice: { marketPrice } marketPriceFloat: {marketPriceFloat} ");
-        // Debug.Log($"smallAvgPrice: { smallAvgPrice } bigAvgPrice: {bigAvgPrice} ");
+        Debug.Log($"t: {t}, midLiquidty: {midLiquidity}, liquidity <= midLiquidity : { liquidity <= midLiquidity }");
+        Debug.Log($"modifier1Calc: {modifier1Calc}, modifier1: {modifier1}");
 
-        Debug.Log($" modifier1: {modifier1}");
-        Debug.Log($"modifier2: {modifier2}");
-
-        return ( modifier1, modifier2, marketPrice );
-
-    }
-
-    private async Task<double> CalculateModifier3(){
-        
-        var web3 = SDKManager.Instance.Web3;
-        var contract = web3.Eth.GetContract( testabi, testcontractAddress );
-        var SendScoreFunction = contract.GetFunction("getAllData");
-
-        try{
-
-            var result = await SendScoreFunction.CallDeserializingToObjectAsync<GetAllDataOutputDTO>();
-            
-            foreach (var score in result.Scores)
-            {
-                // Debug.Log($"PlayerID: {score.PlayerId}, Wallet: {score.WalletAddress}, Coins: {score.CoinAmount}, exchange: { score.exchangedAmount }, Character: {score.CharacterIndex}, Exists: {score.Exists} ");
-
-                SDKManager.Instance.TotalExchangeableToken += (double)score.exchangedAmount;
-                SDKManager.Instance.TotalToken += (double)score.CoinAmount;
-            }
-
-            // modifier 3 calculation
-            double ratio = SDKManager.Instance.TotalExchangeableToken / SDKManager.Instance.TotalToken;            
-            var modifier3 = (ratio < 0.2) ? SDKManager.Instance.maxModifier : 
-                                (ratio > 0.5) ? SDKManager.Instance.minModifier : SDKManager.Instance.midModifier;
-            
-            // modifier 4 calculation
-            // var modifier4 = SDKManager.Instance.TotalToken > 1000000 ? 0.6f : ( SDKManager.Instance.TotalToken < 300000 ? 1f : 0.5f );
-
-            // var finalModifierFrom34 = Math.Min( modifier3, modifier4 );
-
-            Debug.Log( $" modifier3: {modifier3} " );
-
-            return modifier3;
-
-        } 
-        catch(RpcResponseException ex){
-            Debug.LogError("Transaction failed: " + ex.Message);
-            return 0.0;
-        }
-    }
-
-    public double HybridFinalModifier(double m1, double m2, double m3)
-    {
-        // Step 1: Calculate spread
-        double maxMod = Math.Max(m1, Math.Max(m2, m3));
-        double minMod = Math.Min(m1, Math.Min(m2, m3));
-        
-        double mid = (maxMod + minMod) / 2.0;
-
-
-        double d1 = Math.Abs(m1 - mid);
-        double d2 = Math.Abs(m2 - mid);
-        double d3 = Math.Abs(m3 - mid);
-
-        double ε = 0.001;
-        double w1 = 1.0 / (d1 + ε); // Add small ε to avoid divide-by-zero
-        double w2 = 1.0 / (d2 + ε);
-        double w3 = 1.0 / (d3 + ε);
-
-        double total = w1 + w2 + w3;
-        w1 /= total;
-        w2 /= total;
-        w3 /= total;
-
-        double final = m1 * w1 + m2 * w2 + m3 * w3;
-        double finalModifier = Math.Round(final, 3);
-        
-        Debug.Log("finalModifier " + finalModifier );
-
-        return finalModifier;
-
+        return (modifier1, marketPrice, liquidity );
     }
 
 
-    private async Task<( double, double, double, decimal, decimal )> CalculationsFromApiData()
+
+    private async Task<( double, double, double, double )> CalculationsFromApiData()
     {
 
         double reserveValue = SDKManager.Instance.reserveValue;
@@ -171,14 +112,39 @@ public class LiquidityCalculation : MonoBehaviour
         ( double hourLiquidity, decimal smallHourPrice, decimal bigHourPrice ) = await OHLCVData("hour");
         ( double minuteLiquidity, decimal smallMinPrice, decimal bigMinPrice ) = await OHLCVData("minute");
 
-        double finalOHLCVMaxLiquidity = (dayLiquidity * 0.5) + (hourLiquidity * 0.3) + (minuteLiquidity * 0.2);
+        double baseOHLCV = (dayLiquidity * 0.5) + (hourLiquidity * 0.3) + (minuteLiquidity * 0.2);
+        double deviation = Math.Abs(reserve0 - baseOHLCV) / reserve0;
+
+        double dayWeight, hourWeight, minuteWeight;
+
+        if (deviation < 0.1) // Less than 10% off → stable market
+        {
+            dayWeight = 0.5;
+            hourWeight = 0.3;
+            minuteWeight = 0.2;
+        }
+        else if (deviation < 0.3) // Mild deviation → rebalance
+        {
+            dayWeight = 0.3;
+            hourWeight = 0.3;
+            minuteWeight = 0.4;
+        }
+        else // High deviation → trust real-time data more
+        {
+            dayWeight = 0.2;
+            hourWeight = 0.3;
+            minuteWeight = 0.5;
+        }
+
+        double finalOHLCVMaxLiquidity =
+            (dayLiquidity * dayWeight) +
+            (hourLiquidity * hourWeight) +
+            (minuteLiquidity * minuteWeight);
         finalMaxLiquidity = Math.Max(finalOHLCVMaxLiquidity, reserveValue);
         //
 
-        // modifier 2 related calculation
-        decimal smallerPrice = Math.Min(Math.Min(smallDayPrice, smallHourPrice), smallMinPrice);
-        decimal biggerPrice = Math.Max(Math.Max(bigDayPrice, bigHourPrice), bigMinPrice);
 
+        Debug.Log($" weight: day: {dayWeight}, hour: {hourWeight}, minute: {minuteWeight} ");
         Debug.Log($"daily liquidity: {dayLiquidity}, hourly liquidity: {hourLiquidity}, minute-based liquidity: {minuteLiquidity}");
         Debug.Log($"daily price : smaller: {smallDayPrice}, bigger: {bigDayPrice}");
         Debug.Log($"hourly price : smaller: {smallHourPrice}, bigger: {bigHourPrice}");
@@ -187,7 +153,7 @@ public class LiquidityCalculation : MonoBehaviour
         // Debug.Log($"smallDayPrice: {smallDayPrice} bigDayPrice: {bigDayPrice} smallHourPrice: {smallHourPrice} bigHourPrice: {bigHourPrice} smallMinPrice: {smallMinPrice} bigMinPrice: {bigMinPrice} ");
 
         //
-        return ( reserve0, reserve1, finalMaxLiquidity, smallerPrice, biggerPrice ); 
+        return ( reserve0, reserve1, finalMaxLiquidity, reserveValue ); 
     }
 
 
@@ -262,48 +228,41 @@ public class LiquidityCalculation : MonoBehaviour
         return ( small, big );
     }
 
-    public (decimal, decimal, decimal) CalculateExchangeablePercentage(BigInteger totalToken)
+
+    public void SaveModifier1ToFile(string filePath, double modifier1, double liquidity, decimal marketPrice, double effectivePrice, DateTime timestamp)
     {
-        double marketPrice = (double)SDKManager.Instance.marketPrice;
-        double modifier = SDKManager.Instance.modifier1;
 
-        // 1. Convert BigInteger to double to use in math
-        double totalTokenDbl = (double)totalToken;
+        Debug.Log($" price market: {marketPrice}, effective: {effectivePrice} ");
+        // Ensure the directory exists
+        Directory.CreateDirectory(Path.GetDirectoryName(filePath));
 
-        // 2. Calculate floating-point logic
-        double effectivePrice = marketPrice * modifier;
-        double exchangeablePercentage = modifier;
-        double exchangeableTokensDbl = Math.Floor(totalTokenDbl * exchangeablePercentage);
-        double ethReceivedDbl = exchangeableTokensDbl * effectivePrice;
-        double usdReceivedDbl = exchangeableTokensDbl * SDKManager.Instance.priceUsd;
+        // Skip saving if already saved today
+        if (FileChecker.AlreadySavedToday(filePath))
+        {
+            Debug.Log("Clamp already saved today. Skipping save.");
+            return;
+        }
 
-        // 3. Convert results back to decimal
-        decimal exchangeableTokens = (decimal)exchangeableTokensDbl;
-        decimal ethReceived = (decimal)ethReceivedDbl;
-        decimal usdReceived = (decimal)usdReceivedDbl;
+        // If file doesn't exist, write header first
+        if (!File.Exists(filePath))
+        {
+            string header = "Timestamp,Modifier,Liquidity,marketPrice,effectivePrice";
+            File.WriteAllText(filePath, header + "\n", Encoding.UTF8);
+        }
 
-        // Debug.Log($"effectivePrice: {effectivePrice} exchangeableTokensDbl: {exchangeableTokensDbl} ethReceivedDbl: {ethReceivedDbl} usdReceivedDbl: {usdReceivedDbl}");
+        // Format and append the modifier data
+        string row = string.Format(
+            "{0},{1:F6},{2:F4},{3:G},{4:G}",
+            timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
+            modifier1,
+            liquidity,
+            marketPrice,
+            effectivePrice
+        );
 
-        return (exchangeableTokens, ethReceived, usdReceived );
+        File.AppendAllText(filePath, row + "\n", Encoding.UTF8);
+        Debug.Log(" Modifier1 saved: " + row);
     }
-
-    private async Task GetPairAddress(){
-          
-        string factoryAddress = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f"; // Uniswap V2
-        string factoryAbi = @"[ { 'constant': true, 'inputs': [ { 'name': 'tokenA', 'type': 'address' }, { 'name': 'tokenB', 'type': 'address' } ], 'name': 'getPair', 'outputs': [ { 'name': 'pair', 'type': 'address' } ], 'payable': false, 'stateMutability': 'view', 'type': 'function' } ]";
-
-        var web3 = new Web3(SDKManager.Instance.testRpcUrl);
-        var factory = web3.Eth.GetContract(factoryAbi, factoryAddress);
-        var getPair = factory.GetFunction("getPair");
-
-        string slp = "0xCC8Fa225D80b9c7D42F96e9570156c65D6cAAa25";
-        string weth = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
-
-        string pairAddress = await getPair.CallAsync<string>(slp, weth);
-        // Debug.Log("SLP/WETH pair address: " + pairAddress);
-
-    }
-
 
 
 
