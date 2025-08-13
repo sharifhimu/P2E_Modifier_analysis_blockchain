@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Scene4.unity
     guid: 7cc38fefb1402e644ba756d016aa6893
+  - enabled: 1
+    path: Assets/Scenes/AddLiquidity.unity
+    guid: 20b7820fde9458f41a911e5cbbf93de7
+  - enabled: 1
+    path: Assets/Scenes/SwapToken.unity
+    guid: e3f41161aed85ee4caeeed46faf728c8
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

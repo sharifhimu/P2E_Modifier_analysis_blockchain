@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using System;
 using System.Threading.Tasks;
 using System.Numerics;
-// using System.Collections;
+//using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -30,8 +30,15 @@ public class SDKManager : MonoBehaviour
     public Web3 Web3 { get; private set; } 
     [SerializeField][HideInInspector] private string rpcUrl = "http://192.168.100.60:8545"; 
 
-    string testcontractAddress = "0xA4e8331294C96EBcC29C6A2d577aB39E22BdAe8e";
-    string testabi = @"[{""inputs"":[],""stateMutability"":""nonpayable"",""type"":""constructor""},{""anonymous"":false,""inputs"":[{""indexed"":false,""internalType"":""address"",""name"":""sender"",""type"":""address""},{""indexed"":false,""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""indexed"":false,""internalType"":""string"",""name"":""wallet"",""type"":""string""},{""indexed"":false,""internalType"":""uint256"",""name"":""coin"",""type"":""uint256""},{""indexed"":false,""internalType"":""uint256"",""name"":""character"",""type"":""uint256""}],""name"":""ScoreSubmitted"",""type"":""event""},{""inputs"":[],""name"":""ethPrice"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""lastLiquidityUpdate"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""name"":""liquidityLog"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""maxClamp"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""midClamp"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""minClamp"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""name"":""playerAddresses"",""outputs"":[{""internalType"":""address"",""name"":"""",""type"":""address""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""address"",""name"":"""",""type"":""address""}],""name"":""playerScores"",""outputs"":[{""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""internalType"":""string"",""name"":""walletAddress"",""type"":""string""},{""internalType"":""uint256"",""name"":""coinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""characterIndex"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""exchangedAmount"",""type"":""uint256""},{""internalType"":""bool"",""name"":""exists"",""type"":""bool""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""hello"",""outputs"":[{""internalType"":""string"",""name"":"""",""type"":""string""}],""stateMutability"":""pure"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""uint256"",""name"":""_price"",""type"":""uint256""}],""name"":""setPrice"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[{""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""internalType"":""string"",""name"":""add"",""type"":""string""},{""internalType"":""uint256"",""name"":""coinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""characterIndex"",""type"":""uint256""}],""name"":""Sendscore"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[{""internalType"":""uint256"",""name"":""_newCoinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""_newCharacterIndex"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""_exchangedAmount"",""type"":""uint256""}],""name"":""updateScoreByPlayerId"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[{""internalType"":""uint256"",""name"":""_amount"",""type"":""uint256""}],""name"":""setExchangeAmount"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[],""name"":""getAllData"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""},{""components"":[{""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""internalType"":""string"",""name"":""walletAddress"",""type"":""string""},{""internalType"":""uint256"",""name"":""coinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""characterIndex"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""exchangedAmount"",""type"":""uint256""},{""internalType"":""bool"",""name"":""exists"",""type"":""bool""}],""internalType"":""struct TestContract.Score[]"",""name"":"""",""type"":""tuple[]""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""address"",""name"":""_wallet"",""type"":""address""}],""name"":""getPlayerData"",""outputs"":[{""internalType"":""uint256"",""name"":""playerId"",""type"":""uint256""},{""internalType"":""string"",""name"":""walletAddress"",""type"":""string""},{""internalType"":""uint256"",""name"":""coinAmount"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""characterIndex"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""exchangedAmount"",""type"":""uint256""},{""internalType"":""bool"",""name"":""exists"",""type"":""bool""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[],""name"":""getClamps"",""outputs"":[{""internalType"":""uint256"",""name"":"""",""type"":""uint256""},{""internalType"":""uint256"",""name"":"""",""type"":""uint256""},{""internalType"":""uint256"",""name"":"""",""type"":""uint256""}],""stateMutability"":""view"",""type"":""function"",""constant"":true},{""inputs"":[{""internalType"":""uint256"",""name"":""_min"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""_mid"",""type"":""uint256""},{""internalType"":""uint256"",""name"":""_max"",""type"":""uint256""}],""name"":""setModifiers"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[{""internalType"":""uint256"",""name"":""currentLiquidity"",""type"":""uint256""}],""name"":""updateLiquidity"",""outputs"":[],""stateMutability"":""nonpayable"",""type"":""function""},{""inputs"":[],""name"":""getLiquidityLog"",""outputs"":[{""internalType"":""uint256[]"",""name"":"""",""type"":""uint256[]""}],""stateMutability"":""view"",""type"":""function"",""constant"":true}]";
+    private string tokenPairAbi = ABIManager.tokenpairABI;
+    private string tokenPairAddress = ABIManager.tokenpairAddress;
+
+    private string myTokenAbi = ABIManager.mytokenABI;
+    private string myTokenAddress = ABIManager.mytokenAddress;
+
+    public string token0Address;
+    public string token1Address;
+
 
     [HideInInspector] public string walletAddress = "0x4aB5E0D87B8f27036a472ACAe9D7FbD34af4F51c";
     [HideInInspector] public string walletAddress2 = "0xEeC5bD1f87A918E56644DD60c09848B88Ec410e7";
@@ -78,102 +85,39 @@ public class SDKManager : MonoBehaviour
         }
     ]";
 
-   // slp/weth
-    [HideInInspector] public string pairContractAddress = "0x3dDBbFd2CF0120F6E98Ea0D44AeD3475C385F0E9";
-    [HideInInspector] public string ohlcvUrl = "https://api.geckoterminal.com/api/v2/networks/ronin/pools/0x306a28279d04a47468ed83d55088d0dcd1369294/ohlcv";
-    [HideInInspector] public string dexscreenerApi = "https://api.coingecko.com/api/v3/simple/price?ids=smooth-love-potion&vs_currencies=usd";
+    async Task TokenFetch(){
 
+        var pairContract = Web3.Eth.GetContract(ABIManager.tokenpairABI, ABIManager.tokenpairAddress);
 
-    // GST/WSOL not right informations
-    // [HideInInspector] public string pairContractAddress = "0x3dDBbFd2CF0120F6E98Ea0D44AeD3475C385F0E9";
-    // [HideInInspector] public string ohlcvUrl = "https://api.geckoterminal.com/api/v2/networks/solana/pools/2ko9dfZVkCehcw7iY8zyQ5qA5YDLzyPh2etZgJrsCufk/ohlcv";
-    // [HideInInspector] public string dexscreenerApi = "https://api.coingecko.com/api/v3/simple/price?ids=smooth-love-potion&vs_currencies=usd";
+        var token0Func = pairContract.GetFunction("token0");
+        string token0Add = await token0Func.CallAsync<string>();
 
+        var token1Func = pairContract.GetFunction("token1");
+        string token1Add = await token1Func.CallAsync<string>();
 
-    private void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+        token0Address = token0Add;
+        token1Address = token1Add;
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-
-        Web3 = new Web3(rpcUrl); // Create Web3 once here
-        Debug.Log("Web3 connected to: " + rpcUrl + " web3 " + Web3 );
+        Debug.Log("token0 " + token0Address + " token1 " + token1Address );
     }
 
     private async Task<(double, double, double)> CallGetReserve(){
 
-        var web3 = new Web3(testRpcUrl);
-        var contract = web3.Eth.GetContract(testAbi, pairContractAddress);
+        var contract = Web3.Eth.GetContract(ABIManager.tokenpairABI, tokenPairAddress);
         var getReservesFunction = contract.GetFunction("getReserves");
 
         var reserves = await getReservesFunction.CallDeserializingToObjectAsync<Reserves>();
 
-        var (token0, token1) =   await checkDecimals(web3);
-
-        // Debug.Log("tokenDecimals " + (  token0, token1 ) );
-
-        double normalizedReserve0 = (double)reserves.Reserve0 / Math.Pow(10, token0);
-        double normalizedReserve1 = (double)reserves.Reserve1 / Math.Pow(10, token1);
+        double normalizedReserve0 = (double)reserves.Reserve0;
+        double normalizedReserve1 = (double)reserves.Reserve1;
 
         double liquidity = (double)Math.Sqrt(normalizedReserve0 * normalizedReserve1 );
-        // onchainLiquidity = liquidity;
-            Debug.Log($"Reserve0: {normalizedReserve0}");
-            Debug.Log($"Reserve1: {normalizedReserve1}");
-        // Debug.Log($"liquidity from bonk/weth chain: {liquidity}");
+        
+        Debug.Log($"Reserve0: {normalizedReserve0}");
+        Debug.Log($"Reserve1: {normalizedReserve1}");
 
         return ( liquidity, normalizedReserve0, normalizedReserve1 );
 
-    }
-
-    private async Task<bool> pushLiquidity( double newLiquidityValue ){
-
-        Debug.Log("address " + testcontractAddress + " abi " + testabi );
-
-        var web3 = Web3;
-        var contract = web3.Eth.GetContract(testabi, testcontractAddress);
-        var pushFunction = contract.GetFunction("updateLiquidity");
-
-        try{
-
-            var accountAddress = walletAddress;
-            BigInteger liquidityScaled = new BigInteger(Math.Round(newLiquidityValue * 1e6));
-            Debug.Log("liquidityScaled " + liquidityScaled );
-            var result = await pushFunction.SendTransactionAsync(
-                from: accountAddress,                     
-                gas: new HexBigInteger(900000),
-                value: null,
-                functionInput: new object[]
-                {
-                    liquidityScaled
-                }
-            );
-
-            Debug.Log("Liquidity pushed tx: " + result);
-
-        } 
-        catch(RpcResponseException ex){
-            Debug.LogError("Transaction failed: " + ex.Message);
-        }
-        
-        return true;
-
-    }
-
-    public async Task<List<uint>> GetLiquidityLog()
-    {
-        
-        var contract = Web3.Eth.GetContract(testabi, testcontractAddress);
-        var getLogFunction = contract.GetFunction("getLiquidityLog");
-
-        // Ekhon ekbar e pura array fetch
-        var liquidityArray = await getLogFunction.CallAsync<List<uint>>();
-
-        return liquidityArray;
     }
 
     public static (double mean, double stdDev) CalculateSMA(List<double> liquidityData){
@@ -226,14 +170,6 @@ public class SDKManager : MonoBehaviour
         double range = logDoubles.Max() - logDoubles.Min();
         if (range < 1e-6) range = 1e-6; // Prevent divide-by-zero
 
-        // double wideness = clamp.Max - clamp.Min;
-        // double midError = Math.Abs(currentNormalized - clamp.Mid);
-        // double tightness = 1.0 - wideness;
-
-        // var (midWeight, tightWeight, wideWeight) = CalculateWeights(logDoubles.Count);
-
-        // double errorScore = (midError * midWeight) + (tightness * tightWeight) + ((1.0 - wideness) * wideWeight);
-
         return new ClampResult
         {
             Name = methodName,
@@ -269,28 +205,65 @@ public class SDKManager : MonoBehaviour
         return clampResults.First();
     }
 
+     List<double> exampleLiquidity = new List<double>
+    {
+        Convert.ToUInt32("92bc7d4", 16),
+        Convert.ToUInt32("92c1a36", 16),
+        Convert.ToUInt32("92fcc87", 16),
+        Convert.ToUInt32("9301f3b", 16),
+        Convert.ToUInt32("931b8e8", 16),
+        Convert.ToUInt32("82aea6d", 16),
+        Convert.ToUInt32("82f1440", 16),
+        Convert.ToUInt32("831981c", 16),
+        Convert.ToUInt32("831981c", 16),
+        Convert.ToUInt32("8322079", 16)
+    }.Select(x => x / 1e6).ToList();
 
 
     private async void Start()
     {
-        var (liquidity, normalizedReserve0, normalizedReserve1) = await CallGetReserve();
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        Web3 = new Web3(rpcUrl);
+        Debug.Log("Web3 connected from SDKManager to: " + rpcUrl + " web3 " + Web3);
+        
+        await TokenFetch();
+
+        (double liquidity, double normalizedReserve0, double normalizedReserve1) = await CallGetReserve();
+
+        // Now safely use result
         reserveValue = liquidity;
         reserve0 = normalizedReserve0;
         reserve1 = normalizedReserve1;
 
-        if (!await pushLiquidity(liquidity))
-            return;
+        string filepath = Application.persistentDataPath + "/clamp_range.csv";
 
-        List<uint> log = await GetLiquidityLog();
-        List<double> logDoubles = log.Select(x => (double)x/1e6).ToList();
+        var (log, hasToday) = ReadLiquidityColumn(filepath, liquidity);
+        List<double> logDoubles = log.Select(x => (double)x / 1e6).ToList();
 
         if (logDoubles.Count < 2 || logDoubles.Max() == logDoubles.Min())
         {
-            Debug.LogWarning("Not enough data or range is zero.");
-            return;
+            Debug.LogWarning("Not enough file data. Using blockchain liquidity log instead.");
+            logDoubles = exampleLiquidity;
+        }
+        else if (!hasToday)
+        {
+            Debug.Log("Today's liquidity not found in file. Adding to in-memory list.");
+            logDoubles.Add((double)liquidity / 1e6);
+        }
+        else
+        {
+            Debug.Log("Today's liquidity already exists in file. Skipping add.");
         }
 
-        double scaledLiquidity = liquidity;
+        double scaledLiquidity = (double)liquidity;
         double range = logDoubles.Max() - logDoubles.Min();
         double currentNormalized = (scaledLiquidity - logDoubles.Min()) / range;
 
@@ -304,39 +277,94 @@ public class SDKManager : MonoBehaviour
         midModifier = bestClamp.NormMid;
         maxModifier = bestClamp.NormMax;
 
-        string path = Application.persistentDataPath + "/clamp_range.csv";
-        SaveClampRangeToFile(path, bestClamp, DateTime.Now);
-
+        SaveClampRangeToFile(filepath, bestClamp, liquidity, DateTime.Now);
     }
 
-    public void SaveClampRangeToFile(string filePath, ClampResult clamp, DateTime timestamp)
+
+    public static (List<double> liquidityValues, bool hasTodayLiquidity) ReadLiquidityColumn(string filePath, double currentLiquidity)
+    {
+        var liquidityValues = new List<double>();
+        bool hasTodayLiquidity = false;
+
+        try
+        {
+            if (!File.Exists(filePath))
+            {
+                Debug.LogWarning("CSV file not found: " + filePath);
+                return (liquidityValues, false); // empty
+            }
+
+            var lines = File.ReadAllLines(filePath);
+
+            if (lines.Length <= 1)
+            {
+                Debug.LogWarning("CSV file is empty or only has header: " + filePath);
+                return (liquidityValues, false);
+            }
+
+            string todayDate = DateTime.Now.ToString("yyyy-MM-dd");
+
+            // Skip header
+            for (int i = 1; i < lines.Length; i++)
+            {
+                var parts = lines[i].Split(',');
+
+                if (parts.Length < 5)
+                {
+                    Debug.LogWarning($"Line {i + 1} is malformed: {lines[i]}");
+                    continue;
+                }
+
+                if (double.TryParse(parts[4], out double liquidity))
+                {
+                    liquidityValues.Add(liquidity);
+
+                    if (parts[0].StartsWith(todayDate) &&
+                        Math.Abs(liquidity - currentLiquidity) < 0.000001)
+                    {
+                        hasTodayLiquidity = true;
+                    }
+                }
+                else
+                {
+                    Debug.LogWarning($"Liquidity value parse failed at line {i + 1}: {parts[4]}");
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error reading liquidity column: " + ex.Message);
+        }
+
+        return (liquidityValues, hasTodayLiquidity);
+    }
+
+
+    public void SaveClampRangeToFile(string filePath, ClampResult clamp, double liquidity, DateTime timestamp)
     {
         // Ensure directory exists
         Directory.CreateDirectory(Path.GetDirectoryName(filePath));
-
        // Skip saving if already saved today
         if (FileChecker.AlreadySavedToday(filePath))
         {
             Debug.Log("Clamp already saved today. Skipping save.");
             return;
         }
-
         // Add header if file doesn't exist
         if (!File.Exists(filePath))
         {
-            string header = "Timestamp,Min,Mid,Max";
+            string header = "Timestamp,Min,Mid,Max,liquidity";
             File.WriteAllText(filePath, header + "\n", Encoding.UTF8);
         }
-
         // Format row
         string row = string.Format(
-            "{0},{1:F4},{2:F4},{3:F4}",
+            "{0},{1:F4},{2:F4},{3:F4},{4:G}",
             timestamp.ToString("yyyy-MM-dd HH:mm:ss"),
             clamp.NormMin,
             clamp.NormMid,
-            clamp.NormMax
+            clamp.NormMax,
+            liquidity
         );
-
         // Append data
         File.AppendAllText(filePath, row + "\n", Encoding.UTF8);
         Debug.Log(" Clamp range saved: " + row);
@@ -348,38 +376,6 @@ public class SDKManager : MonoBehaviour
     void Update()
     {
         
-    }
-
-    private async Task<(int, int)> checkDecimals(Web3 web3){
-
-        // Create contract query handlers
-        var token0Handler = web3.Eth.GetContractQueryHandler<Token0Function>();
-        var token1Handler = web3.Eth.GetContractQueryHandler<Token1Function>();
-
-        // Query token0 and token1 addresses
-        var token0Address = await token0Handler
-            .QueryAsync<string>(pairContractAddress, new Token0Function());
-
-        var token1Address = await token1Handler
-            .QueryAsync<string>(pairContractAddress, new Token1Function());
-
-        // Debug.Log($"Token0 Address: {token0Address}");
-        // Debug.Log($"Token1 Address: {token1Address}");
-
-        var decimalsHandler = web3.Eth.GetContractQueryHandler<DecimalsFunction>();
-
-        var token0Decimals = await decimalsHandler
-        .QueryAsync<byte>(token0Address, new DecimalsFunction());
-
-        // Query decimals for token1
-        var token1Decimals = await decimalsHandler
-            .QueryAsync<byte>(token1Address, new DecimalsFunction());
-
-        // Debug.Log($"Token0 Decimals: {token0Decimals}");
-        // Debug.Log($"Token1 Decimals: {token1Decimals}");
-
-        return (token0Decimals, token1Decimals);
-
     }
 
 

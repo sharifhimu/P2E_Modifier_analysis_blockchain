@@ -17,7 +17,7 @@ using Newtonsoft.Json.Linq;
 public class Scene1Manager : MonoBehaviour
 {
     
-    public async void GotoNextScene( int playerId ){
+    public void GotoNextScene( int playerId ){
     
         switch(playerId){
             case 1:
@@ -42,40 +42,7 @@ public class Scene1Manager : MonoBehaviour
                 break;
         }
         
-        GetTokenPrice();
         SceneManager.LoadScene("Scene2");
-    }
-
-    private async Task GetTokenPrice()
-    {
-        string url = SDKManager.Instance.dexscreenerApi;
-        UnityWebRequest www = UnityWebRequest.Get(url);
-        await www.SendWebRequest();
-
-        string priceNativeStr = "";
-        double price = 0.0;
-
-        if (www.result == UnityWebRequest.Result.Success)
-        {
-            string json = www.downloadHandler.text;
-            var jObject = JObject.Parse(json);
-            if( jObject.ContainsKey("pairs") ){
-                 priceNativeStr = jObject["pairs"]?[0]?["priceNative"]?.ToString();
-                 price = (double)jObject["pairs"]?[0]?["priceUsd"];
-            }
-            else {
-                 price = (double)jObject["smooth-love-potion"]["usd"]; 
-            }
-
-            Debug.Log("price " + price );
-
-            SDKManager.Instance.priceUsd = price;
-            
-        }
-        else
-        {
-            Debug.LogError("Failed to fetch price: " + www.error);
-        }
     }
 
 }
