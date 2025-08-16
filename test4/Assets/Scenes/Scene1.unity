@@ -148,11 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 915b634cf2a8d214790ec3e56495997a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rpcUrl: http://192.168.100.60:8545
-  tokenPairAbi: 
-  tokenPairAddress: 0xe3e34B86fC0d646F242e1a1b3C973BD9c584cbEe
-  myTokenAbi: 
-  myTokenAddress: 0x8B07757B530364e36ABB0Aee432f7158eF9227ca
+  rpcUrl: http://0.0.0.0:8545
+  token0Address: 
+  token1Address: 
   walletAddress: 0x4aB5E0D87B8f27036a472ACAe9D7FbD34af4F51c
   walletAddress2: 0xEeC5bD1f87A918E56644DD60c09848B88Ec410e7
   walletAddress3: 0x5cdC304b37cF49A5FF9cbA6C59c8A8529F443164
@@ -173,18 +171,6 @@ MonoBehaviour:
   reserveValue: 0
   reserve0: 0
   reserve1: 0
-  testRpcUrl: https://mainnet.infura.io/v3/3a57c44201504fff96c533b1b2c3515f
-  testAbi: "[\r\n        {\r\n            \"constant\": true,\r\n            \"inputs\":
-    [],\r\n            \"name\": \"getReserves\",\r\n            \"outputs\": [\r\n               
-    { \"internalType\": \"uint112\", \"name\": \"reserve0\", \"type\": \"uint112\"
-    },\r\n                { \"internalType\": \"uint112\", \"name\": \"reserve1\",
-    \"type\": \"uint112\" },\r\n                { \"internalType\": \"uint32\", \"name\":
-    \"blockTimestampLast\", \"type\": \"uint32\" }\r\n            ],\r\n           
-    \"payable\": false,\r\n            \"stateMutability\": \"view\",\r\n           
-    \"type\": \"function\"\r\n        }\r\n    ]"
-  pairContractAddress: 0x3dDBbFd2CF0120F6E98Ea0D44AeD3475C385F0E9
-  ohlcvUrl: https://api.geckoterminal.com/api/v2/networks/ronin/pools/0x306a28279d04a47468ed83d55088d0dcd1369294/ohlcv
-  dexscreenerApi: https://api.coingecko.com/api/v3/simple/price?ids=smooth-love-potion&vs_currencies=usd
 --- !u!4 &159879232
 Transform:
   m_ObjectHideFlags: 0
@@ -194,7 +180,7 @@ Transform:
   m_GameObject: {fileID: 159879230}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 334.52365, y: 366.9932, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

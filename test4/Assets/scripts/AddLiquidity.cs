@@ -45,8 +45,8 @@ public class AddLiquidity : MonoBehaviour
             BigInteger token1Input = BigInteger.Parse(token1InputField.text);
 
             // Load token contracts
-            var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, SDKManager.Instance.token0Address);
-            var token1Contract = web3.Eth.GetContract(ABIManager.mytokenABI, SDKManager.Instance.token1Address);
+            var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.mytokenAddress);
+            var token1Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.othertokenAddress);
 
             // Get decimals
             int decimals0 = await token0Contract.GetFunction("decimals").CallAsync<int>();

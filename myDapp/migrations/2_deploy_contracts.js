@@ -4,12 +4,12 @@ const TokenPair = artifacts.require("TokenPair");
 
 module.exports = async function (deployer, network, accounts) {
   // Deploy MyToken with initial supply (1 million tokens)
-  const initialSupply1 = web3.utils.toWei('1000000', 'ether');
+  const initialSupply1 = web3.utils.toWei('1000', 'ether');
   await deployer.deploy(MyToken, initialSupply1);
   const myToken = await MyToken.deployed();
 
   // Deploy OtherToken with initial supply (1 million tokens)
-  const initialSupply2 = web3.utils.toWei('10', 'ether');
+  const initialSupply2 = web3.utils.toWei('1000', 'ether');
   await deployer.deploy(OtherToken, initialSupply2);
   const otherToken = await OtherToken.deployed();
 

@@ -42,8 +42,8 @@ public class SwapToken : MonoBehaviour
         var reserves = await pairContract.GetFunction("getReserves").CallDeserializingToObjectAsync<Reserves>();
 
         // Load token contracts
-        var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, SDKManager.Instance.token0Address);
-        var token1Contract = web3.Eth.GetContract(ABIManager.mytokenABI, SDKManager.Instance.token1Address);
+        var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.mytokenAddress);
+        var token1Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.othertokenAddress);
 
         // Get decimals
         int decimals0 = await token0Contract.GetFunction("decimals").CallAsync<int>();
@@ -78,8 +78,8 @@ public class SwapToken : MonoBehaviour
         var reserves = await pairContract.GetFunction("getReserves").CallDeserializingToObjectAsync<Reserves>();
 
         // Load token contracts
-        var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, SDKManager.Instance.token0Address);
-        var token1Contract = web3.Eth.GetContract(ABIManager.mytokenABI, SDKManager.Instance.token1Address);
+        var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.mytokenAddress);
+        var token1Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.othertokenAddress);
 
         // Get decimals
         int decimals0 = await token0Contract.GetFunction("decimals").CallAsync<int>();
@@ -109,23 +109,17 @@ public class SwapToken : MonoBehaviour
         var web3 = SDKManager.Instance.Web3;
 
          // Step 1: Load CSV & Calculate EMA Modifiers
-        float modifierMin, modifierMid, modifierMax;
         string csvPath = Path.Combine(Application.persistentDataPath, "swap_log.csv");
 
-         EMACalculation.CalculateEMAFromCSV(
+
+        var (modifierMin, modifierMid, modifierMax) = await EMACalculation.CalculateEMAFromCSV(
             csvPath,
-            emaPeriod: 10,             // number of data points for EMA
-            bootstrapTolerance: 0.1f,  // not used in this example but can set early flexibility
-            minDataPoints: 5,          // minimum history before EMA is trusted
-            out modifierMin,
-            out modifierMid,
-            out modifierMax
+            10, // EMA period
+            0.1f, // bootstrap tolerance
+            5    // min data points
         );
 
         Debug.Log($"EMA Modifiers: Min={modifierMin}, Mid={modifierMid}, Max={modifierMax}");
-
-
-
 
         decimal amountDecimal = decimal.Parse(amountInput.text);
         BigInteger amountIn = Web3.Convert.ToWei(amountDecimal);
