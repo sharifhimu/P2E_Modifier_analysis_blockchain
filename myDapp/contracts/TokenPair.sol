@@ -55,7 +55,7 @@ contract TokenPair is Ownable {
         lpToken = new LPToken();
 
         // initialize epoch duration default (15 minutes for testing)
-        epochDuration = 2 minutes;
+        epochDuration = 10 minutes;
     }
 
     function getReserves() public view returns (uint112, uint112) {
