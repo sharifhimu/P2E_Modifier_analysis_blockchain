@@ -3,6 +3,8 @@ pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
 
 // LP Token Contract
 contract LPToken is ERC20 {
@@ -23,7 +25,8 @@ contract LPToken is ERC20 {
     }
 }
 
-contract TokenPair {
+contract TokenPair is Ownable {
+    // ===== your existing state =====
     address public token0;
     address public token1;
 
@@ -31,37 +34,75 @@ contract TokenPair {
     uint112 private reserve1; // y
 
     LPToken public lpToken;
-    address public owner;
 
-    // Sentiment tracking
-    uint public buyPressure; // buys in recent window
-    uint public sellPressure; // sells in recent window
-    uint public lastSentimentUpdate; // timestamp
+    uint16 public impactToleranceBps = 100; // default 1% (100 bps = 0.01)
 
-    // ---- Events for research logging ----
-    event SentimentUpdated(uint timestamp, uint buyPressure, uint sellPressure);
-    event PenaltyApplied(uint timestamp, bool isBuy, uint tradeAmount, uint penalty);
-    event SwapExecuted(
-        uint timestamp,
-        bool isToken0To1,
-        uint amountIn,
-        uint amountOut,
-        uint reserve0,
-        uint reserve1,
-        uint buyPressure,
-        uint sellPressure
-    );
+    // ============================================================
+    // =============== Epoch + Merkle Allowances =============
+    // ============================================================
+    // per-epoch Merkle roots (epochId => root)
+    mapping(uint256 => bytes32) public merkleRootOf;
+
+    // per-epoch per-user used amount (to enforce allowance across many swaps)
+    mapping(uint256 => mapping(address => uint256)) public usedBy;
+
+    // epoch duration (DAO adjustable)
+    uint256 public epochDuration;
 
     constructor(address _token0, address _token1) {
         token0 = _token0;
         token1 = _token1;
         lpToken = new LPToken();
-        owner = msg.sender;
+
+        // initialize epoch duration default (15 minutes for testing)
+        epochDuration = 2 minutes;
     }
 
-    // View reserves
     function getReserves() public view returns (uint112, uint112) {
         return (reserve0, reserve1);
+    }
+
+    // ===== Governance-controlled setter (via voting) =====
+    function setImpactToleranceBps(uint16 newBps) external onlyOwner {
+        require(newBps > 0 && newBps < 10_000, "bad bps");
+        impactToleranceBps = newBps;
+    }
+
+    // ===== View: Max safe swap input (external wrapper) =====
+    // - Only applies to token0->token1 swaps
+    // - If isToken0To1 = false, returns MAX (no limit, game profit)
+    function getMaxSwapInForImpact(bool isToken0To1) external view returns (uint256 maxIn) {
+        return _computeMaxSwapInForImpact(isToken0To1);
+    }
+
+    // Internal helper moved here to avoid "stack too deep" in swapWithProof.
+    function _computeMaxSwapInForImpact(bool isToken0To1) internal view returns (uint256 maxIn) {
+        (uint112 x, uint112 y) = getReserves();
+
+        if (!isToken0To1) {
+            return type(uint256).max; // unlimited for token1->token0
+        }
+
+        uint16 maxImpactBps = impactToleranceBps;
+
+        // ==== Step 1: Compute safe output cap (reserve1 side) ====
+        uint256 maxReserve1Out = (uint256(y) * maxImpactBps) / 10_000;
+
+        // ==== Step 2: Back-compute required input token0 ====
+        // Δx = (x * Δy) / (y - Δy)
+        if (maxReserve1Out >= y) {
+            return 0; // can't drain entire pool
+        }
+
+        uint256 numerator = uint256(x) * maxReserve1Out;
+        uint256 denominator = uint256(y) - maxReserve1Out;
+        uint256 requiredIn = numerator / denominator;
+
+        maxIn = requiredIn;
+
+        // Extra guard: never allow more than 20% of reserve0
+        uint256 twentyPercent = uint256(x) / 5;
+        if (maxIn > twentyPercent) maxIn = twentyPercent;
     }
 
     // Add liquidity (LP tokens minted proportional to contribution)
@@ -71,8 +112,10 @@ contract TokenPair {
 
         uint256 liquidity;
         if (reserve0 == 0 && reserve1 == 0) {
+            // First deposit: simple sum
             liquidity = sqrt(uint256(amount0) * uint256(amount1));
         } else {
+            // Proportional LP minting
             liquidity = min(
                 (uint256(amount0) * lpToken.totalSupply()) / reserve0,
                 (uint256(amount1) * lpToken.totalSupply()) / reserve1
@@ -87,74 +130,23 @@ contract TokenPair {
         lpToken.mint(msg.sender, liquidity);
     }
 
-    // Sentiment update
-    function updateSentiment(bool isBuy, uint amountIn) internal {
-        if (block.timestamp > lastSentimentUpdate + 1 hours) {
-            buyPressure = 0;
-            sellPressure = 0;
-            lastSentimentUpdate = block.timestamp;
-        }
-        if (isBuy) {
-            buyPressure += amountIn;
-        } else {
-            sellPressure += amountIn;
-        }
-        emit SentimentUpdated(block.timestamp, buyPressure, sellPressure);
-    }
-
-    // Whale penalty (quadratic relative to pool size) with sentiment influence
-    function whalePenalty(uint amountIn, uint reserveIn, bool isBuy) internal view returns (uint) {
-        uint adjustedAmountIn = amountIn;
-
-        // Sentiment influence
-        if (!isBuy && sellPressure > buyPressure && reserveIn == reserve1) {
-            adjustedAmountIn = (amountIn * 110) / 100; // 10% more penalty for sells
-        } else if (isBuy && buyPressure > sellPressure && reserveIn == reserve0) {
-            adjustedAmountIn = (amountIn * 110) / 100; // 10% more penalty for buys
-        }
-
-        if (adjustedAmountIn > reserveIn / 20) { // >5% of pool
-            uint excess = adjustedAmountIn - (reserveIn / 20);
-            return (excess * excess) / reserveIn;
-        }
-        return 0;
-    }
-
-    // Swap with sentiment + whale penalty + logging
-    function swap(uint amountIn, bool isToken0To1) public {
+    // Swap using constant product formula (x * y = k)
+    function swap(uint amountIn, bool isToken0To1) internal {
         if (isToken0To1) {
             IERC20(token0).transferFrom(msg.sender, address(this), amountIn);
-
-            uint penalty = whalePenalty(amountIn, reserve0, true);
-            uint adjustedReserve0 = reserve0 + penalty;
-            uint amountOut = getAmountOut(amountIn, adjustedReserve0, reserve1);
-
+            uint amountOut = getAmountOut(amountIn, reserve0, reserve1);
             IERC20(token1).transfer(msg.sender, amountOut);
             reserve0 += uint112(amountIn);
             reserve1 -= uint112(amountOut);
-
-            updateSentiment(true, amountIn);
-            emit PenaltyApplied(block.timestamp, true, amountIn, penalty);
-            emit SwapExecuted(block.timestamp, true, amountIn, amountOut, reserve0, reserve1, buyPressure, sellPressure);
-
         } else {
             IERC20(token1).transferFrom(msg.sender, address(this), amountIn);
-
-            uint penalty = whalePenalty(amountIn, reserve1, false);
-            uint adjustedReserve1 = reserve1 + penalty;
-            uint amountOut = getAmountOut(amountIn, adjustedReserve1, reserve0);
-
+            uint amountOut = getAmountOut(amountIn, reserve1, reserve0);
             IERC20(token0).transfer(msg.sender, amountOut);
             reserve1 += uint112(amountIn);
             reserve0 -= uint112(amountOut);
-
-            updateSentiment(false, amountIn);
-            emit PenaltyApplied(block.timestamp, false, amountIn, penalty);
-            emit SwapExecuted(block.timestamp, false, amountIn, amountOut, reserve0, reserve1, buyPressure, sellPressure);
         }
     }
 
-    // Pricing formula
     function getAmountOut(uint amountIn, uint reserveIn, uint reserveOut) internal pure returns (uint) {
         require(amountIn > 0, "Insufficient input amount");
         require(reserveIn > 0 && reserveOut > 0, "Insufficient liquidity");
@@ -165,7 +157,6 @@ contract TokenPair {
         return numerator / denominator;
     }
 
-    // Math helpers
     function sqrt(uint y) internal pure returns (uint z) {
         if (y > 3) {
             z = y;
@@ -183,14 +174,56 @@ contract TokenPair {
         return x < y ? x : y;
     }
 
-    // Owner control
-    modifier onlyOwner() {
-        require(msg.sender == owner, "Only owner can call");
-        _;
+    // --- Epoch helpers ---
+    function setEpochDuration(uint256 newDuration) external onlyOwner {
+        require(newDuration >= 60, "epoch too short");
+        epochDuration = newDuration;
     }
 
-    function resetReserves() external onlyOwner {
-        reserve0 = 0;
-        reserve1 = 0;
+    function currentEpochId() public view returns (uint256) {
+        require(epochDuration > 0, "epoch not set");
+        return block.timestamp / epochDuration;
+    }
+
+    /// @notice DAO sets the Merkle root for a specific epoch (usually the current one).
+    function setMerkleRoot(uint256 epochId, bytes32 root) external onlyOwner {
+        merkleRootOf[epochId] = root;
+    }
+
+    // event to cehck Merkle root 
+    event LogRoot(string message, bytes32 value);
+
+    /// @notice Swap that checks Merkle allowance for the caller in the *current epoch*.
+    /// Leaf schema: keccak256(abi.encodePacked(epochId, player, allowance))
+    function swapWithProof(
+        uint256 amountIn,
+        bool isToken0To1,
+        uint256 allowance,
+        bytes32[] calldata proof
+    ) external {
+        uint256 epochId = currentEpochId();
+
+        // require a root for this epoch
+        bytes32 root = merkleRootOf[epochId];
+        emit LogRoot("Root ", root );
+        require(root != bytes32(0), "root not set");
+
+        // verify leaf
+        bytes32 leaf = keccak256(abi.encodePacked(epochId, msg.sender, allowance));
+        require(MerkleProof.verify(proof, root, leaf), "bad proof");
+
+        // enforce per-player allowance
+        uint256 already = usedBy[epochId][msg.sender];
+        require(already + amountIn <= allowance, "allowance exceeded");
+        usedBy[epochId][msg.sender] = already + amountIn;
+
+        // optional: also enforce per-tx safe cap for token0->token1 using current reserves
+        if (isToken0To1) {
+            uint256 maxIn = _computeMaxSwapInForImpact(true);
+            require(amountIn <= maxIn, "above safe cap");
+        }
+
+        // execute the existing swap logic
+        swap(amountIn, isToken0To1);
     }
 }

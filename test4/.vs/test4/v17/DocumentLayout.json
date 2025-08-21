@@ -1,74 +1,82 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "D:\\unity\\modifier analysis blockchain\\test4\\",
+  "WorkspaceRootPath": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\SwapToken.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\SwapToken.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\SwapToken.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\Resources\\TokenPair.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\TokenPair.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\ABIManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\ABIManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\SDKManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\SDKManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\SDKManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\Resources\\MyToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\MyToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\MerkleTree.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\MerkleTree.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\Resources\\OtherToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\ABIManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\ABIManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\TokenPair.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\TokenPair.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\OtherToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\OtherToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\EMACalculation.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\MyToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\MyToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\EMACalculation.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\EMACalculation.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\LiquidityCalculation.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\LiquidityCalculation.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\Scene2Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\Scene2Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\AddLiquidity.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\AddLiquidity.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\structureDefine\\Reserves.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\structureDefine\\Reserves.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\LogDisplayManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\LogDisplayManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\InputManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\InputManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\Scene1Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\Scene1Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\Log.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Log.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\Log.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\StressTesterModifier1.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\LiquidityCalculation.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\LiquidityCalculation.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\stressTesterModifier2.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\stressTesterModifier2.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\AddLiquidity.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\AddLiquidity.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\StressTesterModifier1.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\StressTesterModifier1.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\StressTester.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\InputManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\InputManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Scene2Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\Scene2Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\FileChecker.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\FileChecker.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\StressTester.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\StressTester.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\LogDisplayManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\LogDisplayManager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Scene1Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\Scene1Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -82,215 +90,234 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SDKManager.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\SDKManager.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\SDKManager.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\SDKManager.cs",
-              "RelativeToolTip": "Assets\\scripts\\SDKManager.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAIwB8AAABEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T03:31:58.917Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ABIManager.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\ABIManager.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\ABIManager.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\ABIManager.cs",
-              "RelativeToolTip": "Assets\\scripts\\ABIManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAXAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-07T07:49:59.156Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 5,
               "Title": "OtherToken.json",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\Resources\\OtherToken.json",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\OtherToken.json",
               "RelativeDocumentMoniker": "Assets\\Resources\\OtherToken.json",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\Resources\\OtherToken.json",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\OtherToken.json",
               "RelativeToolTip": "Assets\\Resources\\OtherToken.json",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAcwFkBAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsBAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-08-11T09:00:38.045Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-18T05:50:05.38Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "LiquidityCalculation.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\LiquidityCalculation.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\LiquidityCalculation.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\LiquidityCalculation.cs",
-              "RelativeToolTip": "Assets\\scripts\\LiquidityCalculation.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAwwE4AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 6,
+              "Title": "MyToken.json",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\MyToken.json",
+              "RelativeDocumentMoniker": "Assets\\Resources\\MyToken.json",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\MyToken.json",
+              "RelativeToolTip": "Assets\\Resources\\MyToken.json",
+              "ViewState": "AgIAAB0BAAAAAAAAAAAYwGgBAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-18T05:50:03.356Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TokenPair.json",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\TokenPair.json",
+              "RelativeDocumentMoniker": "Assets\\Resources\\TokenPair.json",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\TokenPair.json",
+              "RelativeToolTip": "Assets\\Resources\\TokenPair.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFsBAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-18T05:50:06.561Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SDKManager.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\SDKManager.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\SDKManager.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\SDKManager.cs",
+              "RelativeToolTip": "Assets\\scripts\\SDKManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T03:01:28.037Z",
+              "WhenOpened": "2025-08-18T05:49:34.42Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "SwapToken.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\SwapToken.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\SwapToken.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\SwapToken.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\SwapToken.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\SwapToken.cs",
               "RelativeToolTip": "Assets\\scripts\\SwapToken.cs",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAAAGsAAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAANsAAAAAAAAAAAAAAAkBAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-12T06:20:05.598Z",
+              "WhenOpened": "2025-08-18T05:49:33.057Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 2,
+              "Title": "MerkleTree.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\MerkleTree.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\MerkleTree.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\MerkleTree.cs",
+              "RelativeToolTip": "Assets\\scripts\\MerkleTree.cs",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAAEMAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-19T06:24:12.664Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ABIManager.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\ABIManager.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\ABIManager.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\ABIManager.cs",
+              "RelativeToolTip": "Assets\\scripts\\ABIManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T05:49:35.83Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "EMACalculation.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\EMACalculation.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\EMACalculation.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\EMACalculation.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\EMACalculation.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\EMACalculation.cs",
               "RelativeToolTip": "Assets\\scripts\\EMACalculation.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAwwD4AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-13T04:52:00.002Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "TokenPair.json",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\Resources\\TokenPair.json",
-              "RelativeDocumentMoniker": "Assets\\Resources\\TokenPair.json",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\Resources\\TokenPair.json",
-              "RelativeToolTip": "Assets\\Resources\\TokenPair.json",
-              "ViewState": "AgIAALEAAAAAAAAAAAAAACEBAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-08-08T07:35:06.77Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MyToken.json",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\Resources\\MyToken.json",
-              "RelativeDocumentMoniker": "Assets\\Resources\\MyToken.json",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\Resources\\MyToken.json",
-              "RelativeToolTip": "Assets\\Resources\\MyToken.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGgBAAADAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-08-08T07:34:07.237Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "AddLiquidity.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\AddLiquidity.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\AddLiquidity.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\AddLiquidity.cs",
-              "RelativeToolTip": "Assets\\scripts\\AddLiquidity.cs",
-              "ViewState": "AgIAAEIAAAAAAAAAAAAAADAAAABrAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T07:02:48.767Z"
+              "WhenOpened": "2025-08-18T05:49:38.024Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "Scene2Manager.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\Scene2Manager.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\Scene2Manager.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\Scene2Manager.cs",
-              "RelativeToolTip": "Assets\\scripts\\Scene2Manager.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAAAEUAAABcAAAAAAAAAA==",
+              "Title": "Log.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Log.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\Log.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Log.cs",
+              "RelativeToolTip": "Assets\\scripts\\Log.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-10T06:17:52.932Z"
+              "WhenOpened": "2025-08-18T05:49:37.599Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "LiquidityCalculation.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\LiquidityCalculation.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\LiquidityCalculation.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\LiquidityCalculation.cs",
+              "RelativeToolTip": "Assets\\scripts\\LiquidityCalculation.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T05:49:37.174Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 10,
-              "Title": "Reserves.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\structureDefine\\Reserves.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\structureDefine\\Reserves.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\structureDefine\\Reserves.cs",
-              "RelativeToolTip": "Assets\\scripts\\structureDefine\\Reserves.cs",
+              "Title": "stressTesterModifier2.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\stressTesterModifier2.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\stressTesterModifier2.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\stressTesterModifier2.cs",
+              "RelativeToolTip": "Assets\\scripts\\stressTesterModifier2.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-11T04:38:19.564Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "Scene1Manager.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\Scene1Manager.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\Scene1Manager.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\Scene1Manager.cs",
-              "RelativeToolTip": "Assets\\scripts\\Scene1Manager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-20T01:44:47.894Z"
+              "WhenOpened": "2025-08-18T05:49:36.721Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 11,
-              "Title": "LogDisplayManager.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\LogDisplayManager.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\LogDisplayManager.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\LogDisplayManager.cs",
-              "RelativeToolTip": "Assets\\scripts\\LogDisplayManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
+              "Title": "AddLiquidity.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\AddLiquidity.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\AddLiquidity.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\AddLiquidity.cs",
+              "RelativeToolTip": "Assets\\scripts\\AddLiquidity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-10T02:48:02.454Z"
+              "WhenOpened": "2025-08-18T05:49:36.314Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 12,
-              "Title": "InputManager.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\InputManager.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\InputManager.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\InputManager.cs",
-              "RelativeToolTip": "Assets\\scripts\\InputManager.cs",
-              "ViewState": "AgIAADMAAAAAAAAAAAAAAAQAAAAfAAAAAAAAAA==",
+              "Title": "StressTesterModifier1.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\StressTesterModifier1.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\StressTesterModifier1.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\StressTesterModifier1.cs",
+              "RelativeToolTip": "Assets\\scripts\\StressTesterModifier1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T04:00:12.189Z"
+              "WhenOpened": "2025-08-18T05:49:35.259Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "StressTesterModifier1.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\StressTesterModifier1.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\StressTesterModifier1.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\StressTesterModifier1.cs",
-              "RelativeToolTip": "Assets\\scripts\\StressTesterModifier1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAABIAAAAAAAAAA==",
+              "DocumentIndex": 13,
+              "Title": "InputManager.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\InputManager.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\InputManager.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\InputManager.cs",
+              "RelativeToolTip": "Assets\\scripts\\InputManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-18T04:01:04.626Z"
+              "WhenOpened": "2025-08-18T05:49:34.855Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 14,
-              "Title": "Log.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\Log.cs",
-              "RelativeDocumentMoniker": "Assets\\scripts\\Log.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\Log.cs",
-              "RelativeToolTip": "Assets\\scripts\\Log.cs",
-              "ViewState": "AgIAAEsAAAAAAAAAAAAAAFUAAAA+AAAAAAAAAA==",
+              "Title": "Scene2Manager.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Scene2Manager.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\Scene2Manager.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Scene2Manager.cs",
+              "RelativeToolTip": "Assets\\scripts\\Scene2Manager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-09T05:45:20.458Z"
+              "WhenOpened": "2025-08-18T05:49:33.897Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "FileChecker.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\FileChecker.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\FileChecker.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\FileChecker.cs",
+              "RelativeToolTip": "Assets\\scripts\\FileChecker.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T05:49:33.493Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 16,
               "Title": "StressTester.cs",
-              "DocumentMoniker": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\StressTester.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\StressTester.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\StressTester.cs",
-              "ToolTip": "D:\\unity\\modifier analysis blockchain\\test4\\Assets\\scripts\\StressTester.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\StressTester.cs",
               "RelativeToolTip": "Assets\\scripts\\StressTester.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA+AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-06-17T04:41:06.71Z"
+              "WhenOpened": "2025-08-18T05:49:32.647Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "LogDisplayManager.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\LogDisplayManager.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\LogDisplayManager.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\LogDisplayManager.cs",
+              "RelativeToolTip": "Assets\\scripts\\LogDisplayManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T05:49:32.071Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "Scene1Manager.cs",
+              "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Scene1Manager.cs",
+              "RelativeDocumentMoniker": "Assets\\scripts\\Scene1Manager.cs",
+              "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Scene1Manager.cs",
+              "RelativeToolTip": "Assets\\scripts\\Scene1Manager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-18T05:49:31.094Z"
             }
           ]
         }
