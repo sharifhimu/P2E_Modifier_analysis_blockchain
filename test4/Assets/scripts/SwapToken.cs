@@ -26,22 +26,16 @@ public class SwapToken : MonoBehaviour
     public TMP_Text estimateOutput;
 
     public TMP_Text warningText;
-    public decimal maxSwapAllowed;
+    public BigInteger maxSwapAllowed;
+
+    // public GameObject buildMerkleTree;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    async void Start()
+    void Start()
     {
-        var web3 = SDKManager.Instance.Web3;
-        var pairContract = web3.Eth.GetContract(ABIManager.tokenpairABI, ABIManager.tokenpairAddress);
-        var fn = pairContract.GetFunction("getMaxSwapInForImpact");
-        var maxIn = await fn.CallAsync<BigInteger>(true);
-        var maxInBig = Web3.Convert.FromWei(maxIn);
-        Debug.Log($"maxIn: {maxInBig}");      
 
-        decimal maxSwapDecimal = (decimal)maxInBig; 
-        BigInteger maxSwapWei = new BigInteger(maxSwapDecimal * (decimal)Math.Pow(10, 18));
-
-        maxSwapAllowed = (decimal)maxSwapWei;
+        maxSwapAllowed = SDKManager.Instance.playerAllowences[SDKManager.Instance.walletAddress.ToLowerInvariant()];
+        Debug.Log($" max Swap amount allowed: {Web3.Convert.FromWei(maxSwapAllowed)} ");
 
         amountInput.onValueChanged.AddListener(OnInputChanged);
     }
@@ -58,14 +52,16 @@ public class SwapToken : MonoBehaviour
 
         if (decimal.TryParse(input, out decimal value))
         {
-            if (value > maxSwapAllowed)
+            var maxSwapAllowedReadable = Web3.Convert.FromWei( maxSwapAllowed );
+            // Debug.Log($" value: {value} maxSwapAllowed: {maxSwapAllowedReadable} ");
+            if (value > maxSwapAllowedReadable)
             {
                 // Enforce max value
                 amountInput.text = "0";
 
                 // Show warning
                 if (warningText != null)
-                    warningText.text = $"⚠️ You can only swap up to {maxSwapAllowed} tokens this time";
+                    warningText.text = $"You can only swap up to {maxSwapAllowedReadable} tokens this time";
             }
             else
             {
@@ -158,9 +154,7 @@ public class SwapToken : MonoBehaviour
 
     public List<byte[]> GetMerkleProof()
     {
-           Debug.Log($" SDKManager.Instance.CurrentMerkleTree: {SDKManager.Instance.CurrentMerkleTree} ");
-           Debug.Log($" SDKManager.Instance.CurrentLeaves: {SDKManager.Instance.CurrentLeaves} ");
-           Debug.Log($" SDKManager.Instance.CurrentEpochId: {SDKManager.Instance.CurrentEpochId} ");
+
 
         if  (SDKManager.Instance.CurrentMerkleTree == null || SDKManager.Instance.CurrentLeaves == null)
         {
@@ -172,12 +166,14 @@ public class SwapToken : MonoBehaviour
         var encoder = new ABIEncode();
         var encoded = encoder.GetABIEncodedPacked(
             new ABIValue("uint256", SDKManager.Instance.CurrentEpochId),
-            new ABIValue("address", SDKManager.Instance.walletAddress),
+            new ABIValue("address", SDKManager.Instance.walletAddress.ToLowerInvariant()),
             new ABIValue("uint256", maxSwapAllowed) // allowence
         );
         var leaf = Sha3Keccack.Current.CalculateHash(encoded);
 
-        Debug.Log($" leaf: {leaf} ");
+        //Debug.Log($" leaf: {leaf} ");
+        //Debug.Log($"LEAF HASH (hex): 0x{BitConverter.ToString(leaf).Replace("-", "")}");
+        //Debug.Log($"ROOT (hex): 0x{BitConverter.ToString(SDKManager.Instance.CurrentMerkleTree.GetRoot()).Replace("-", "")}");
 
         // Find index of leaf
         int index = SDKManager.Instance.CurrentLeaves.FindIndex(l => l.SequenceEqual(leaf));
@@ -189,7 +185,7 @@ public class SwapToken : MonoBehaviour
 
         // Return proof
         var proof = SDKManager.Instance.CurrentMerkleTree.GetProof(index);
-        Debug.Log($" proof: {proof} ");
+        // Debug.Log($" proof: {proof} ");
         return proof;
     }
 
@@ -198,29 +194,33 @@ public class SwapToken : MonoBehaviour
     {
         var web3 = SDKManager.Instance.Web3;
 
-         // Step 1: Load CSV & Calculate EMA Modifiers
+        // Debug.Log($" SDKManager.Instance.CurrentMerkleTree: {SDKManager.Instance.CurrentMerkleTree} ");
+        // Debug.Log($" SDKManager.Instance.CurrentLeaves: {SDKManager.Instance.CurrentLeaves} ");
+        //Debug.Log($" SDKManager.Instance.CurrentEpochId: {SDKManager.Instance.CurrentEpochId} ");
+
+        // Step 1: Load CSV & Calculate EMA Modifiers
         // string csvPath = Path.Combine(Application.persistentDataPath, "swap_log.csv");
     
         List<byte[]> merkleProof = GetMerkleProof();
-        Debug.Log($" merkle proof: {merkleProof} ");
-
-        for (int i = 0; i < merkleProof.Count; i++)
-        {
-            string hex = "0x" + BitConverter.ToString(merkleProof[i]).Replace("-", "");
-            Debug.Log($"Proof[{i}]: {hex}");
-        }
+     
+        // for (int i = 0; i < merkleProof.Count; i++)
+        // {
+        //    string hex = "0x" + BitConverter.ToString(merkleProof[i]).Replace("-", "");
+        //    Debug.Log($"merkle Proof[{i}]: {hex}");
+        // }
 
         decimal amountDecimal = decimal.Parse(amountInput.text);
         BigInteger amountIn = Web3.Convert.ToWei(amountDecimal);
         bool isToken0To1 = (tokenSelection.value == 0);
 
        // Step 3: Auto-limit based on EMA results
-        if (amountDecimal > (decimal)maxSwapAllowed)
+       var maxSwapHumanoid = Web3.Convert.FromWei(maxSwapAllowed);
+        if (amountDecimal > (decimal)maxSwapHumanoid)
         {
             
-            Debug.LogWarning($"Requested swap {amountDecimal} exceeds safe max {maxSwapAllowed}. Limiting...");
-            amountInput.text = maxSwapAllowed.ToString();
-            Debug.Log($"Swap limited to {maxSwapAllowed} due to market volatility.");
+            Debug.LogWarning($"Requested swap {amountDecimal} exceeds safe max {maxSwapHumanoid}. Limiting...");
+            amountInput.text = "";
+            // Debug.Log($"Swap limited to {maxSwapHumanoid} due to market volatility.");
 
         } else {
 
@@ -239,10 +239,9 @@ public class SwapToken : MonoBehaviour
             // Approve the swap contract
             var tokenContract = web3.Eth.GetContract( tokenAbi, tokenInAddress);
             var approveFunction = tokenContract.GetFunction("approve");
-            var approveGas = await approveFunction.EstimateGasAsync( SDKManager.Instance.walletAddress, null, null, swapContractAddress, amountIn );
 
 
-            Debug.Log($"Approving {amountIn} tokens for {swapContractAddress}...");
+            //Debug.Log($"Approving {amountIn} tokens for {swapContractAddress}...");
             var approveTxHash = await approveFunction.SendTransactionAsync(
                 SDKManager.Instance.walletAddress,
                 new Nethereum.Hex.HexTypes.HexBigInteger(600000),
@@ -251,7 +250,7 @@ public class SwapToken : MonoBehaviour
                 amountIn
             );
 
-            Debug.Log("Approve transaction hash: " + approveTxHash);
+            //Debug.Log("Approve transaction hash: " + approveTxHash);
 
             // Optional: wait for receipt before continuing
             var receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(approveTxHash);
@@ -260,18 +259,37 @@ public class SwapToken : MonoBehaviour
                 await Task.Delay(2000);
                 receipt = await web3.Eth.Transactions.GetTransactionReceipt.SendRequestAsync(approveTxHash);
             }
-            Debug.Log("Approve confirmed.");
+            //Debug.Log("Approve confirmed.");
+
+            var swapContract = web3.Eth.GetContract( ABIManager.tokenpairABI, swapContractAddress);
+            //check prrof before call swap
+            var proofCheckFunction = swapContract.GetFunction("checkProof");
+            var proofCheckResult = await proofCheckFunction.CallDeserializingToObjectAsync<CheckProofOutputDTO>(
+                SDKManager.Instance.CurrentEpochId,
+                SDKManager.Instance.walletAddress,
+                maxSwapAllowed,
+                merkleProof
+            );
+            
+            bool verified = proofCheckResult.Verified;
+            BigInteger currentEpochId = proofCheckResult.CurrentEpochId;
+            byte[] root = proofCheckResult.Root;
+            bool rootExists = proofCheckResult.RootExists;
+
+            Debug.Log("Verified: " + verified);
+            //Debug.Log("EpochId from swaptoken taken from checkProof contract function: " + currentEpochId);
+            //Debug.Log("Root: " + BitConverter.ToString(root).Replace("-", ""));
+            //Debug.Log("Root Exists: " + rootExists);
 
             // Call swap function
-            var swapContract = web3.Eth.GetContract( ABIManager.tokenpairABI, swapContractAddress);
             // var swapFunction = swapContract.GetFunction("swap");
             // var swapGas = await swapFunction.EstimateGasAsync( SDKManager.Instance.walletAddress, null, null, amountIn, isToken0To1 );
             var swapFunction = swapContract.GetFunction("swapWithProof");
-            var swapGas = await swapFunction.EstimateGasAsync( SDKManager.Instance.walletAddress, null, null, amountIn, isToken0To1, maxSwapAllowed, merkleProof );
+            var swapGas = await swapFunction.EstimateGasAsync( SDKManager.Instance.walletAddress, null, null, amountIn, isToken0To1, maxSwapAllowed, merkleProof, SDKManager.Instance.CurrentEpochId );
             swapGas = new HexBigInteger(swapGas.Value + (swapGas.Value / 5)); // +20% buffer
 
 
-            Debug.Log("Calling swap...");
+            //Debug.Log("Calling swap...");
             var swapTxHash = await swapFunction.SendTransactionAsync(
                 SDKManager.Instance.walletAddress,
                 swapGas,
@@ -279,10 +297,14 @@ public class SwapToken : MonoBehaviour
                 amountIn,
                 isToken0To1,
                 maxSwapAllowed,
-                merkleProof
+                merkleProof,
+                SDKManager.Instance.CurrentEpochId
             );
 
-            Debug.Log("Swap transaction hash: " + swapTxHash);
+            //Debug.Log("Swap transaction hash: " + swapTxHash);
+
+            // BuildMerkleTree buildMerkleTreeInstance = buildMerkleTree.GetComponent<BuildMerkleTree>();
+            // await buildMerkleTreeInstance.CheckAndSaveBalancesAsync(SDKManager.Instance.playerAddresses);
         
             // Get reserves
             var pairContract = web3.Eth.GetContract(ABIManager.tokenpairABI, ABIManager.tokenpairAddress);
@@ -328,7 +350,7 @@ public class SwapToken : MonoBehaviour
                 sw.WriteLine(line);
             }
 
-            Debug.Log($"Swap logged: {swapAmountToken0} Token0 / {swapAmountToken1} Token1");
+            //Debug.Log($"Swap logged: {swapAmountToken0} Token0 / {swapAmountToken1} Token1");
         }
         catch (System.Exception ex)
         {
@@ -337,4 +359,20 @@ public class SwapToken : MonoBehaviour
     }
 
 
+}
+
+[FunctionOutput]
+public class CheckProofOutputDTO : IFunctionOutputDTO
+{
+    [Parameter("bool", 1)]
+    public bool Verified { get; set; }
+
+    [Parameter("uint256", 2)]
+    public BigInteger CurrentEpochId { get; set; }
+
+    [Parameter("bytes32", 3)]
+    public byte[] Root { get; set; }
+
+    [Parameter("bool", 4)]
+    public bool RootExists { get; set; }
 }

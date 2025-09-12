@@ -75,27 +75,24 @@ public class MerkleTree
 
     // ----------------- Helper functions -----------------
 
-    private static byte[] HashPair(byte[] left, byte[] right)
+    private static byte[] HashPair(byte[] a, byte[] b)
     {
-        // Compare lexicographically and sort
-        int cmp = CompareBytes(left, right);
-        var a = (cmp <= 0) ? left : right;
-        var b = (cmp <= 0) ? right : left;
-
-        var data = new byte[a.Length + b.Length];
-        Buffer.BlockCopy(a, 0, data, 0, a.Length);
-        Buffer.BlockCopy(b, 0, data, a.Length, b.Length);
-        return Sha3.CalculateHash(data);
-    }
-
-    private static int CompareBytes(byte[] a, byte[] b)
-    {
-        for (int i = 0; i < 32; i++)
+        // lexicographic compare so it matches OpenZeppelin _hashPair
+        bool aFirst = false;
+        for (int i = 0; i < Math.Min(a.Length, b.Length); i++)
         {
-            int diff = a[i].CompareTo(b[i]);
-            if (diff != 0) return diff;
+            if (a[i] < b[i]) { aFirst = true; break; }
+            if (a[i] > b[i]) { aFirst = false; break; }
+            if (i == Math.Min(a.Length, b.Length) - 1) aFirst = a.Length <= b.Length;
         }
-        return 0;
+
+        var left  = aFirst ? a : b;
+        var right = aFirst ? b : a;
+
+        var data = new byte[left.Length + right.Length];
+        Buffer.BlockCopy(left, 0, data, 0, left.Length);
+        Buffer.BlockCopy(right, 0, data, left.Length, right.Length);
+        return Sha3.CalculateHash(data);
     }
 
 }

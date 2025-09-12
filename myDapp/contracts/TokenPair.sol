@@ -37,6 +37,12 @@ contract TokenPair is Ownable {
 
     uint16 public impactToleranceBps = 100; // default 1% (100 bps = 0.01)
 
+    enum ExtraLogicType { BalanceBoost, FlatBoost }
+
+    ExtraLogicType public extraLogic = ExtraLogicType.BalanceBoost; // default
+    uint256 public balanceBoostBps = 250; // 2.5% (bps = basis points, 250 = 2.5%)
+    uint256 public flatBoostAmount = 100 ether; // Example: flat +100 tokens
+
     // ============================================================
     // =============== Epoch + Merkle Allowances =============
     // ============================================================
@@ -55,7 +61,64 @@ contract TokenPair is Ownable {
         lpToken = new LPToken();
 
         // initialize epoch duration default (15 minutes for testing)
-        epochDuration = 10 minutes;
+        epochDuration = 5 minutes;
+    }
+
+    // debug events
+    event LogRootSet(uint256 indexed epochId, bytes32 root);
+    event LogLeafComputed(uint256 indexed epochId, address indexed who, uint256 allowance, bytes32 leaf);
+    event DebugEpoch(uint256 currentEpoch, bytes32 storedRoot);
+
+    event ExtraLogicChanged(ExtraLogicType newLogic);
+    event BalanceBoostBpsChanged(uint256 newBps);
+    event FlatBoostChanged(uint256 newFlat);
+
+
+
+    // DAO can switch the logic type
+    function setExtraLogic(ExtraLogicType newLogic) external onlyOwner {
+        extraLogic = newLogic;
+        emit ExtraLogicChanged(newLogic);
+    }
+
+    // DAO can update the balance-boost percentage (e.g. from 2.5% to 5%)
+    function setBalanceBoostBps(uint256 newBps) external onlyOwner {
+        require(newBps <= 5000, "too high"); // max 50%
+        balanceBoostBps = newBps;
+        emit BalanceBoostBpsChanged(newBps);
+    }
+
+    // DAO can update the flat boost amount
+    function setFlatBoostAmount(uint256 newFlat) external onlyOwner {
+        flatBoostAmount = newFlat;
+        emit FlatBoostChanged(newFlat);
+    }
+
+    // ---- Allowance calculation ----
+    function computeAllowance(address player) public view returns (uint256) {
+        uint256 base = _computeMaxSwapInForImpact(true); // safe cap for token0->token1
+        uint256 extra = 0;
+
+        if (extraLogic == ExtraLogicType.BalanceBoost) {
+            uint256 bal = IERC20(token0).balanceOf(player);
+            extra = (bal * balanceBoostBps) / 10_000; // % of balance
+        } else if (extraLogic == ExtraLogicType.FlatBoost) {
+            extra = flatBoostAmount; // fixed amount
+        }
+
+        uint256 total = base + extra;
+        uint256 playerBal = IERC20(token0).balanceOf(player);
+
+        // Cap the allowance at the player's balance
+        if (total > playerBal) {
+            return playerBal;
+        }
+        return total;
+    }
+
+    // helper to compute leaf on-chain (pure) for comparison
+    function computeLeaf(uint256 epochId, address player, uint256 allowance) public pure returns (bytes32) {
+        return keccak256(abi.encodePacked(epochId, player, allowance));
     }
 
     function getReserves() public view returns (uint112, uint112) {
@@ -188,10 +251,19 @@ contract TokenPair is Ownable {
     /// @notice DAO sets the Merkle root for a specific epoch (usually the current one).
     function setMerkleRoot(uint256 epochId, bytes32 root) external onlyOwner {
         merkleRootOf[epochId] = root;
+        emit LogRootSet(epochId, root);
     }
 
-    // event to cehck Merkle root 
-    event LogRoot(string message, bytes32 value);
+    function checkProof(uint256 epochId, address sender, uint256 allowance, bytes32[] calldata proof) 
+    external view 
+    returns (bool, uint256, bytes32, bool) {
+        bytes32 root = merkleRootOf[epochId];
+        bytes32 leaf = keccak256(abi.encodePacked(epochId, sender, allowance));
+        bool proofIsValid = MerkleProof.verify(proof, root, leaf);
+        uint256 currentEpoch = currentEpochId();
+
+        return ( proofIsValid, currentEpoch, root, root != bytes32(0) );
+    }
 
     /// @notice Swap that checks Merkle allowance for the caller in the *current epoch*.
     /// Leaf schema: keccak256(abi.encodePacked(epochId, player, allowance))
@@ -199,17 +271,18 @@ contract TokenPair is Ownable {
         uint256 amountIn,
         bool isToken0To1,
         uint256 allowance,
-        bytes32[] calldata proof
+        bytes32[] calldata proof,
+        uint256 epochId
     ) external {
-        uint256 epochId = currentEpochId();
 
         // require a root for this epoch
         bytes32 root = merkleRootOf[epochId];
-        emit LogRoot("Root ", root );
+        emit DebugEpoch(epochId, root);   // <--- LOG EPOCH & ROOT
         require(root != bytes32(0), "root not set");
 
         // verify leaf
         bytes32 leaf = keccak256(abi.encodePacked(epochId, msg.sender, allowance));
+        emit LogLeafComputed(epochId, msg.sender, allowance, leaf);
         require(MerkleProof.verify(proof, root, leaf), "bad proof");
 
         // enforce per-player allowance
@@ -219,11 +292,13 @@ contract TokenPair is Ownable {
 
         // optional: also enforce per-tx safe cap for token0->token1 using current reserves
         if (isToken0To1) {
-            uint256 maxIn = _computeMaxSwapInForImpact(true);
+            // uint256 maxIn = _computeMaxSwapInForImpact(true);
+            uint256 maxIn = computeAllowance(msg.sender);
             require(amountIn <= maxIn, "above safe cap");
         }
 
         // execute the existing swap logic
         swap(amountIn, isToken0To1);
     }
+
 }

@@ -17,7 +17,7 @@ using Newtonsoft.Json.Linq;
 public class Scene1Manager : MonoBehaviour
 {
     
-    public void GotoNextScene( int playerId ){
+    public async void GotoNextScene( int playerId ){
     
         switch(playerId){
             case 1:
@@ -41,6 +41,7 @@ public class Scene1Manager : MonoBehaviour
                 SDKManager.Instance.playerId = 5;
                 break;
         }
+
         
         SceneManager.LoadScene("Scene2");
     }
