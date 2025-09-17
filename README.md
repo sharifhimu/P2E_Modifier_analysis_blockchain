@@ -68,3 +68,7 @@ In Unity: click ▶️ "Play"
 
 Game should detect deployed contracts and allow interactions
 
+### Video links of the running project
+#### Minimal design project: https://hongik-my.sharepoint.com/:v:/g/personal/sharif_mail_hongik_ac_kr/ES7XGnz1KkhGrlXMSgVx1ksBuwvDfDE_St1wSFuwhn2Qbg?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=hxQN8C
+
+#### EG-AMM: https://hongik-my.sharepoint.com/:v:/g/personal/sharif_mail_hongik_ac_kr/Ed_4zeNoub1Onkx4cNJtV40BIQYU7pclqnN4-NIDbFlWEA?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=AagcWy
