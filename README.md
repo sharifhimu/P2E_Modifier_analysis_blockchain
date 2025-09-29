@@ -1,12 +1,12 @@
-# 🧩 Unity + Truffle Blockchain Integration Project
+# 🧩 Unity + Truffle => P2E tokenomies Project
 
-This repository combines a **Unity game frontend** and a **Truffle-based smart contract system** to simulate a modifier-driven Play-to-Earn (P2E) economy. It is designed to run locally using Ganache and MetaMask.
+This repository combines a **Unity game frontend** and a **Truffle-based smart contract system** to simulate a modifier-driven Play-to-Earn (P2E) economy. It is designed to run locally using Ganache.
 
 ---
 
 ## 📁 Project Structure
-/UnityProject/ <- Unity frontend
-/TruffleContracts/ <- Smart contracts using Truffle
+### /test4/ <- Unity frontend
+### /myDapp/ <- Smart contracts using Truffle
 
 ---
 
@@ -18,6 +18,8 @@ This repository combines a **Unity game frontend** and a **Truffle-based smart c
 - [Unity Hub + Unity Editor](https://unity.com/)
 
 ---
+
+
 
 ## 🔗 Part 1: Run Smart Contracts on Local Ganache
 
@@ -56,17 +58,36 @@ truffle compile
 truffle migrate --network development
 ```
 
+### Step 4: smart contract addresses and ABI
+1. Open Ganache
+2. Go to "CONTRACTS"
+3. You will see 3 contracts: TokenPair, MyToken, OtherToken
+4. Save their address
+5. After deploy, ABI json are created in the .json file.
+6. Go to myDapp/build/contracts
+7. You can see 3 .json file: TokenPair.json, MyToken.json, OtherToken.json
+8. Open each of them.
+9. You will see a property named "abi"
+10. Copy the abi property from 3 of those files
+
+
 ## Part 2: Run the Unity Game
 ### ✅ Step 1: Open Project
 Launch Unity Hub
 
 Click "Open" → Navigate to /test4
 
+### Step 2: define the contracts address and abi into the game
+1. Open ABIManager.cs.
+2. You can see 3 variables: tokenpairAddress, mytokenAddress, othertokenAddress
+3. Paste the addresses from the contract in these variables as the name matches
+4. Also, go to Assets/Resources.
+5. You can see 3 json file: TokenPair.json, MyToken.json, OtherToken.json
+6. Paste the copied abi into those files according to the name 
 
 ### ✅ Step 3: Run the Game
 In Unity: click ▶️ "Play"
 
-Game should detect deployed contracts and allow interactions
 
 ### Video links of the running project
 #### Minimal design project: https://hongik-my.sharepoint.com/:v:/g/personal/sharif_mail_hongik_ac_kr/ES7XGnz1KkhGrlXMSgVx1ksBuwvDfDE_St1wSFuwhn2Qbg?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=hxQN8C
