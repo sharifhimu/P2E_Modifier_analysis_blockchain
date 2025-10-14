@@ -63,12 +63,16 @@ truffle migrate --network development
 2. Go to "CONTRACTS"
 3. You will see 3 contracts: TokenPair, MyToken, OtherToken
 4. Save their address
-5. After deploy, ABI json are created in the .json file.
+5. After deployment, ABI JSONs are created in the .json file.
 6. Go to myDapp/build/contracts
 7. You can see 3 .json file: TokenPair.json, MyToken.json, OtherToken.json
 8. Open each of them.
 9. You will see a property named "abi"
 10. Copy the abi property from 3 of those files
+
+### Step 5: player addresses
+1. From ganache, take 5 addresses
+2. We will copy-paste these addresses into our game's player addresses fields
 
 
 ## Part 2: Run the Unity Game
@@ -77,15 +81,20 @@ Launch Unity Hub
 
 Click "Open" → Navigate to /test4
 
-### Step 2: define the contracts address and abi into the game
+### Step 2: define the contract's address and ABI in the game
 1. Open ABIManager.cs.
 2. You can see 3 variables: tokenpairAddress, mytokenAddress, othertokenAddress
-3. Paste the addresses from the contract in these variables as the name matches
+3. Paste the addresses from the contract in these variables, as the name matches
 4. Also, go to Assets/Resources.
 5. You can see 3 json file: TokenPair.json, MyToken.json, OtherToken.json
 6. Paste the copied abi into those files according to the name 
 
-### ✅ Step 3: Run the Game
+### Step 3: define the player wallet address in the game
+1. Open SDKManager.cs
+2. In line no. 40 to 44, there are variables: walletAddress, walletAddress2, walletAddress3, walletAddress4, walletAddress5
+3. Copy-paste the addresses we have taken from ganache into these 5 variables, and you are ready to play
+
+### ✅ Step 4: Run the Game
 In Unity: click ▶️ "Play"
 
 
