@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\TokenPair.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\TokenPair.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\MyToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\MyToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\OtherToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\OtherToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
@@ -29,10 +37,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Scene1Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\Scene1Manager.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\TokenPair.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\TokenPair.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\StressTester.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
@@ -73,10 +77,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\FileChecker.cs||{3B902123-F8A7-4915-9F01-361F908088D0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\scripts\\FileChecker.cs||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\MyToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\Resources\\MyToken.json||{3B902123-F8A7-4915-9F01-361F908088D0}"
     }
   ],
   "DocumentGroupContainers": [
@@ -86,61 +86,63 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "OtherToken.json",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\OtherToken.json",
               "RelativeDocumentMoniker": "Assets\\Resources\\OtherToken.json",
               "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\OtherToken.json",
               "RelativeToolTip": "Assets\\Resources\\OtherToken.json",
-              "ViewState": "AgIAALsAAAAAAAAAAAAAwOIAAAAGAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-08-18T05:50:05.38Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 1,
               "Title": "MyToken.json",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\MyToken.json",
               "RelativeDocumentMoniker": "Assets\\Resources\\MyToken.json",
               "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\MyToken.json",
               "RelativeToolTip": "Assets\\Resources\\MyToken.json",
-              "ViewState": "AgIAABUBAAAAAAAAAAAAwGgBAAADAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-08-18T05:50:03.356Z"
+              "WhenOpened": "2025-08-18T05:50:03.356Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 0,
               "Title": "TokenPair.json",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\TokenPair.json",
               "RelativeDocumentMoniker": "Assets\\Resources\\TokenPair.json",
               "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\Resources\\TokenPair.json",
               "RelativeToolTip": "Assets\\Resources\\TokenPair.json",
-              "ViewState": "AgIAADoCAAAAAAAAAAAgwGgCAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-08-18T05:50:06.561Z"
+              "WhenOpened": "2025-08-18T05:50:06.561Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ABIManager.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\ABIManager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\ABIManager.cs",
               "ToolTip": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\ABIManager.cs",
               "RelativeToolTip": "Assets\\scripts\\ABIManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABZAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAABXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-18T05:49:35.83Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "SDKManager.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\SDKManager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\SDKManager.cs",
@@ -152,7 +154,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "MerkleTree.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\MerkleTree.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\MerkleTree.cs",
@@ -164,7 +166,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "SwapToken.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\SwapToken.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\SwapToken.cs",
@@ -172,12 +174,11 @@
               "RelativeToolTip": "Assets\\scripts\\SwapToken.cs",
               "ViewState": "AgIAAPcAAAAAAAAAAAAAwA4BAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-18T05:49:33.057Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-18T05:49:33.057Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Scene1Manager.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Scene1Manager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Scene1Manager.cs",
@@ -189,7 +190,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "EMACalculation.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\EMACalculation.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\EMACalculation.cs",
@@ -201,7 +202,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "Log.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Log.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Log.cs",
@@ -213,7 +214,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "LiquidityCalculation.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\LiquidityCalculation.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\LiquidityCalculation.cs",
@@ -225,7 +226,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 14,
               "Title": "stressTesterModifier2.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\stressTesterModifier2.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\stressTesterModifier2.cs",
@@ -237,7 +238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 15,
               "Title": "AddLiquidity.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\AddLiquidity.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\AddLiquidity.cs",
@@ -249,7 +250,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "StressTesterModifier1.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\StressTesterModifier1.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\StressTesterModifier1.cs",
@@ -261,7 +262,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 16,
               "Title": "InputManager.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\InputManager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\InputManager.cs",
@@ -273,7 +274,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 17,
               "Title": "Scene2Manager.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\Scene2Manager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\Scene2Manager.cs",
@@ -285,7 +286,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 18,
               "Title": "FileChecker.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\FileChecker.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\FileChecker.cs",
@@ -297,7 +298,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "StressTester.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\StressTester.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\StressTester.cs",
@@ -309,7 +310,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "LogDisplayManager.cs",
               "DocumentMoniker": "D:\\unity\\updated\\P2E_Modifier_analysis_blockchain\\test4\\Assets\\scripts\\LogDisplayManager.cs",
               "RelativeDocumentMoniker": "Assets\\scripts\\LogDisplayManager.cs",
