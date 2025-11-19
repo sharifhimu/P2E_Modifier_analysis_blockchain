@@ -12,9 +12,9 @@ public class ABIManager : MonoBehaviour
 	public static string mytokenABI;
 	public static string othertokenABI;
 
-    public static string tokenpairAddress = "0xA1936C3d0d4A7D0c3329CfAD2438f2AB1525E164";
-	public static string mytokenAddress = "0x948d8d1083ac640090f75B3703e26dBf91f7ad7D";
-	public static string othertokenAddress = "0x5A21aA0e64FF527FE58ff7Aeb2C67cE2460CCbbe";
+    public static string tokenpairAddress = "0x4710A48FD1A25F9799B39d27a1C530221344d164";
+	public static string mytokenAddress = "0x424a5038b60f3D91E0a37a33AEA47EE10391BFBD";
+	public static string othertokenAddress = "0x6B8Be50757C448EFD031799Af522732517e7Aa42";
 
 
     void Awake()
