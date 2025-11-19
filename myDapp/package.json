@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "@openzeppelin/contracts": "^4.9.5",
+    "@truffle/hdwallet-provider": "^2.1.15",
+    "dotenv": "^17.2.3",
     "uws": "^200.0.0",
     "web3": "^4.16.0"
   },
