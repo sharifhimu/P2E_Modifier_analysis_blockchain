@@ -11,4 +11,13 @@ contract OtherToken is ERC20, Ownable {
     function mintRewards(address to, uint256 amount) external onlyOwner {
         _mint(to, amount);
     }
+    
+    function mintBatch(address[] calldata recipients, uint256[] calldata amounts) external onlyOwner 
+    {
+        require(recipients.length == amounts.length, "Length mismatch");
+        
+        for (uint i = 0; i < recipients.length; i++) {
+            _mint(recipients[i], amounts[i]);
+        }
+    }
 }

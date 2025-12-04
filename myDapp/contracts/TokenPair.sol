@@ -116,6 +116,14 @@ contract TokenPair is Ownable {
         return total;
     }
 
+    function getAllowances(address[] calldata players) external view returns (uint256[] memory) {
+        uint256[] memory allowances = new uint256[](players.length);
+        for (uint256 i = 0; i < players.length; i++) {
+            allowances[i] = computeAllowance(players[i]);
+        }
+        return allowances;
+    }
+
     // helper to compute leaf on-chain (pure) for comparison
     function computeLeaf(uint256 epochId, address player, uint256 allowance) public pure returns (bytes32) {
         return keccak256(abi.encodePacked(epochId, player, allowance));
