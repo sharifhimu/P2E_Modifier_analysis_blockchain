@@ -201,6 +201,11 @@ contract TokenPair is Ownable {
         lpToken.mint(msg.sender, liquidity);
     }
 
+    function adminResetReserves() external onlyOwner {
+        reserve0 = 0;
+        reserve1 = 0;
+    }
+
     // Swap using constant product formula (x * y = k)
     function swap(uint amountIn, bool isToken0To1) internal {
         if (isToken0To1) {
