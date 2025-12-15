@@ -3,6 +3,9 @@ myDapp/build/
 myDapp/node_modules/
 
 # Unity Project ignore rules
+test4/.vs/
+test4/ProjectSettings/
+test4/UserSettings/
 test4/Library/
 test4/Temp/
 test4/Obj/
