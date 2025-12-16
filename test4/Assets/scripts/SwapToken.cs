@@ -262,24 +262,10 @@ public class SwapToken : MonoBehaviour
             //Debug.Log("Approve confirmed.");
 
             var swapContract = web3.Eth.GetContract( ABIManager.tokenpairABI, swapContractAddress);
-            //check prrof before call swap
-            var proofCheckFunction = swapContract.GetFunction("checkProof");
-            var proofCheckResult = await proofCheckFunction.CallDeserializingToObjectAsync<CheckProofOutputDTO>(
-                SDKManager.Instance.CurrentEpochId,
-                SDKManager.Instance.walletAddress,
-                maxSwapAllowed,
-                merkleProof
-            );
-            
-            bool verified = proofCheckResult.Verified;
-            BigInteger currentEpochId = proofCheckResult.CurrentEpochId;
-            byte[] root = proofCheckResult.Root;
-            bool rootExists = proofCheckResult.RootExists;
 
-            Debug.Log("Verified: " + verified);
-            //Debug.Log("EpochId from swaptoken taken from checkProof contract function: " + currentEpochId);
-            //Debug.Log("Root: " + BitConverter.ToString(root).Replace("-", ""));
-            //Debug.Log("Root Exists: " + rootExists);
+            // before swap, read reserves and calculate reserve0Before, reserve1Before, kBefore
+
+            //
 
             // Call swap function
             // var swapFunction = swapContract.GetFunction("swap");
@@ -301,21 +287,50 @@ public class SwapToken : MonoBehaviour
                 SDKManager.Instance.CurrentEpochId
             );
 
-            //Debug.Log("Swap transaction hash: " + swapTxHash);
+            Debug.Log("Swap transaction hash: " + swapTxHash);
+
+            // reserves BEFORE swap were used in EstimateSwap, so here just read AFTER
+            var reservesAfter = await swapContract.GetFunction("getReserves")
+                .CallDeserializingToObjectAsync<Reserves>();
+
+            // optional: you can store reservesBefore from EstimateSwap in fields;
+            // here we treat "before" as unknown if you don't have it
+            double r0After = (double)Web3.Convert.FromWei(reservesAfter.Reserve0);
+            double r1After = (double)Web3.Convert.FromWei(reservesAfter.Reserve1);
+            double kAfter = r0After * r1After;
+
+            // direction + amounts in token units
+            string direction = isToken0To1 ? "0->1" : "1->0";
+            double amountInTokens = (double)amountDecimal;   // already in token units
+            double amountOutTokens = 0; // if you later read exact out, replace
+
+            DataLogger.Instance.LogOperation(
+                "Swap",
+                swapTxHash,
+                SDKManager.Instance.walletAddress,
+                amountInTokens,
+                amountOutTokens,
+                direction,
+                0, 0,               // reserve0Before, reserve1Before (fill later if you cache)
+                r0After,
+                r1After,
+                0,                  // kBefore
+                kAfter
+            );
 
             // BuildMerkleTree buildMerkleTreeInstance = buildMerkleTree.GetComponent<BuildMerkleTree>();
             // await buildMerkleTreeInstance.CheckAndSaveBalancesAsync(SDKManager.Instance.playerAddresses);
-        
-            // Get reserves
-            var pairContract = web3.Eth.GetContract(ABIManager.tokenpairABI, ABIManager.tokenpairAddress);
-            var reserves = await pairContract.GetFunction("getReserves").CallDeserializingToObjectAsync<Reserves>();
-            var normalizedReserve0 = Web3.Convert.FromWei( reserves.Reserve0 );
-            var normalizedReserve1 = Web3.Convert.FromWei( reserves.Reserve1 );
-            var token0price = (decimal)normalizedReserve1 / (decimal)normalizedReserve0;
-            var token1price = (decimal)normalizedReserve0 / (decimal)normalizedReserve1;
 
-            LogSwap( isToken0To1 ? amountDecimal : 0, isToken0To1 ? 0 : amountDecimal, normalizedReserve0, normalizedReserve1, token0price, token1price );
-        
+            // Get reserves
+            //var pairContract = web3.Eth.GetContract(ABIManager.tokenpairABI, ABIManager.tokenpairAddress);
+            //var reserves = await pairContract.GetFunction("getReserves").CallDeserializingToObjectAsync<Reserves>();
+            //var normalizedReserve0 = Web3.Convert.FromWei( reserves.Reserve0 );
+            //var normalizedReserve1 = Web3.Convert.FromWei( reserves.Reserve1 );
+            //var token0price = (decimal)normalizedReserve1 / (decimal)normalizedReserve0;
+            //var token1price = (decimal)normalizedReserve0 / (decimal)normalizedReserve1;
+
+            //LogSwap( isToken0To1 ? amountDecimal : 0, isToken0To1 ? 0 : amountDecimal, normalizedReserve0, normalizedReserve1, token0price, token1price );
+
         }
 
 

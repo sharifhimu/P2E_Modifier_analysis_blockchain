@@ -2161,7 +2161,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1821617254}
         m_TargetAssemblyTypeName: AddLiquidity, Assembly-CSharp
-        m_MethodName: Add
+        m_MethodName: PlayerAddLiquidity
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

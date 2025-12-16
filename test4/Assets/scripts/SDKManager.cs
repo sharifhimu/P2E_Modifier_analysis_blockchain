@@ -1,71 +1,27 @@
-﻿using UnityEngine;
-using UnityEngine.SceneManagement;
-
-using System;
+﻿using System;
+using UnityEngine;
+using Nethereum.Web3;
+using Nethereum.Web3.Accounts;
 using System.Threading.Tasks;
 using System.Numerics;
-//using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using System.Text;
-
-using Nethereum.Web3;
-using Nethereum.Hex.HexTypes;
-using Nethereum.JsonRpc.Client;
-using Nethereum.ABI.FunctionEncoding.Attributes;
-
-using UnityEngine.Networking;
-
-using Newtonsoft.Json.Linq;
-
-using Nethereum.Contracts;
-using Nethereum.ABI;
-using Nethereum.ABI.FunctionEncoding;
-using Nethereum.Hex.HexConvertors.Extensions;
-using Nethereum.ABI.Encoders;  
-using Nethereum.Util;
-
-
 
 public class SDKManager : MonoBehaviour
 {
-    public static SDKManager Instance{ get; private set; }
-    public Web3 Web3 { get; private set; } 
-    [NonSerialized] public string rpcUrl = "http://192.168.100.60:8545"; 
-    //[NonSerialized] public string rpcUrl = "http://0.0.0.0:8545"; 
+    public static SDKManager Instance { get; private set; }
+    public Web3 Web3 { get; private set; }
+    public Web3 Web3Owner { get; private set; }
 
-    [HideInInspector] public string ownerAddress = "0x4aB5E0D87B8f27036a472ACAe9D7FbD34af4F51c";
+    [NonSerialized] public string rpcUrl = "https://ethereum-sepolia-rpc.publicnode.com";
 
-    [HideInInspector] public string walletAddress = "0x4aB5E0D87B8f27036a472ACAe9D7FbD34af4F51c";
-    [HideInInspector] public string walletAddress2 = "0xEeC5bD1f87A918E56644DD60c09848B88Ec410e7";
-    [HideInInspector] public string walletAddress3 = "0x5cdC304b37cF49A5FF9cbA6C59c8A8529F443164";
-    [HideInInspector] public string walletAddress4 = "0x7BE00eD244D11b14ff184a0dA503A9A4659D3A41";
-    [HideInInspector] public string walletAddress5 = "0xD4c9b0818E0FEcCa7aC2096749eDA754a9c9c857";
+    [HideInInspector] public string ownerAddress;
+    [HideInInspector] public string walletAddress;
 
-    [HideInInspector] public List<string> playerAddresses ;
+    [HideInInspector] public List<string> playerAddresses;
 
-    public int selectedCharacterIndex = 0; // default to first character
+    public int selectedCharacterIndex = 0;
     public BigInteger totalCoin = 0;
     public int playerId = 1;
-
-    public double minModifier = 0.0f;
-    public double maxModifier = 0.0f;
-    public double midModifier = 0.0f;
-    
-    [HideInInspector]public double priceUsd = 0;
-    [HideInInspector]public decimal marketPrice = 0;
-    [HideInInspector]public double TotalExchangeableToken = 0;
-    [HideInInspector]public double TotalToken = 0;
-
-    [HideInInspector]public double modifier1 = 0;
-    [HideInInspector]public double modifierOne = 0;
-    [HideInInspector]public double modifierTwo = 0;
-    [HideInInspector]public double modifierThree = 0;
-
-    [HideInInspector]public double reserveValue = 0;
-    [HideInInspector]public double reserve0 = 0;
-    [HideInInspector]public double reserve1 = 0;
 
     public MerkleTree CurrentMerkleTree { get; set; }
     public List<byte[]> CurrentLeaves { get; set; }
@@ -74,71 +30,104 @@ public class SDKManager : MonoBehaviour
 
     public GameObject buildMerkleTree;
 
-    // private bool hasInitialized = false;
-
-    private void Awake()
-    {
-
-    }
+    private double epochDuration = 0; // ✅ Store epoch duration
+    private bool isEpochLoopRunning = false; // ✅ Track loop state
 
     async void Start()
     {
-        // if (hasInitialized) return; // ⛔ prevent re-initialization
-
-        // hasInitialized = true;
-        // Debug.Log("SDKManager initialized only once");
-
+        Application.runInBackground = true;
         if (Instance != null && Instance != this)
         {
-            Destroy(gameObject); // destroy duplicate SDKManagers
+            Destroy(gameObject);
             return;
         }
 
         Instance = this;
-        
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(buildMerkleTree.gameObject);
 
-        Web3 = new Web3(rpcUrl);
-        Debug.Log("Web3 connected from SDKManager to: " + rpcUrl + " web3 " + Web3);
+        // ✅ Wait for AccountManager to load accounts
+        Debug.Log("⏳ Waiting for AccountManager...");
+        while (AccountManager.Instance == null || !AccountManager.Instance.isReady)
+        {
+            await Task.Delay(100);
+        }
 
-        List<string> Addresses = new List<string>
-                {
-                    walletAddress.ToLowerInvariant(),
-                    walletAddress2.ToLowerInvariant(),
-                    walletAddress3.ToLowerInvariant(),
-                    walletAddress4.ToLowerInvariant(),
-                    walletAddress5.ToLowerInvariant()
-                };
-        playerAddresses = Addresses;
+        Debug.Log("✅ AccountManager ready!");
 
-         // 🔹 Start epoch loop
-        await StartEpochLoopAsync(Addresses);
+        // ✅ Get all player addresses from AccountManager
+        playerAddresses = AccountManager.Instance.playerAddresses;
 
+        // ✅ Initialize OWNER Web3 once (for Merkle root, admin ops)
+        var ownerAccount = new Account(AccountManager.Instance.ownerPrivateKey);
+        Web3Owner = new Web3(ownerAccount, rpcUrl);
+        ownerAddress = ownerAccount.Address;
+        Debug.Log($"✅ Web3Owner initialized for owner: {ownerAddress}");
+
+        // ✅ Initialize Web3 with first player
+        UpdateWeb3WithCurrentPlayer();
+
+        Debug.Log($"✅ Loaded {playerAddresses.Count} players");
+
+        // ✅ Start epoch loop (FIRE AND FORGET - doesn't block Start())
+        _ = StartEpochLoopAsync(playerAddresses);
+    }
+
+    public void UpdateWeb3WithCurrentPlayer()
+    {
+        string address = AccountManager.Instance.CurrentAddress;
+        string privateKey = AccountManager.Instance.CurrentPrivateKey;
+
+        if (string.IsNullOrEmpty(address) || string.IsNullOrEmpty(privateKey))
+        {
+            Debug.LogError("❌ No account selected in AccountManager!");
+            return;
+        }
+
+        var account = new Account(privateKey);
+        Web3 = new Web3(account, rpcUrl);
+        walletAddress = address;
+
+        Debug.Log($"✅ Web3 updated for: {address}...");
     }
 
     private async Task StartEpochLoopAsync(List<string> playerAddresses)
     {
-        var pairContract = Web3.Eth.GetContract(ABIManager.tokenpairABI, ABIManager.tokenpairAddress);
-        var epochDurationFn = pairContract.GetFunction("epochDuration");
+        try { 
+        
+            var pairContract = Web3Owner.Eth.GetContract(ABIManager.tokenpairABI, ABIManager.tokenpairAddress);
+            var epochDurationFn = pairContract.GetFunction("epochDuration");
 
-        while (true)
-        {
-            // 🔹 Call balances + build & push Merkle root
-            BuildMerkleTree buildMerkleTreeInstance = buildMerkleTree.GetComponent<BuildMerkleTree>();
-            await buildMerkleTreeInstance.CheckAndSaveBalancesAsync(playerAddresses);
-
-            // 🔹 Get epoch duration from contract
             BigInteger durationSec = await epochDurationFn.CallAsync<BigInteger>();
             double durationFloat = (double)durationSec;
+            Debug.Log("durationFloat " + durationFloat);
 
-            // Debug.Log($"[SDKManager] Waiting {durationFloat} seconds until next epoch...");
+            BuildMerkleTree buildMerkleTreeInstance = buildMerkleTree.GetComponent<BuildMerkleTree>();
 
-            // 🔹 Wait for next epoch
-            await Task.Delay(TimeSpan.FromSeconds(durationFloat));
+            // ✅ ADD THIS WHILE LOOP
+            while (true)  // ← INFINITE LOOP
+            {
+                // ✅ This runs AFTER every delay
+                Debug.Log($"⚡ EPOCH TRIGGERED! Updating Merkle Root...");
+                await buildMerkleTreeInstance.CheckAndSaveBalancesAsync(playerAddresses);
+
+                Debug.Log($"⏳ Waiting {durationFloat} seconds for next epoch...");
+                await Task.Delay(System.TimeSpan.FromSeconds(durationFloat));
+
+            }
+
+        }
+        catch (System.Exception ex)
+        {
+            Debug.LogError("error while looping epoch: " + ex.Message);
         }
     }
 
-   
 
+    // ✅ Optional: Stop the loop manually if needed
+    public void StopEpochLoop()
+    {
+        isEpochLoopRunning = false;
+        Debug.Log("🛑 Epoch loop stopped");
     }
+}

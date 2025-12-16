@@ -34,15 +34,31 @@ public class AddLiquidity : MonoBehaviour
         SceneManager.LoadScene("Scene2");
     }
 
-    public async void Add()
+    public async void OwnerAddLiquidity(){
+        var web3 = SDKManager.Instance.Web3Owner;
+        string token0Input = "25000";
+        string token1Input = "25000";
+        string address = SDKManager.Instance.ownerAddress;
+        await Add( web3, address, token0Input, token1Input );
+    }
+
+    public async void PlayerAddLiquidity(){
+
+        var web3 = SDKManager.Instance.Web3;
+
+        string token0Input = token0InputField.text;
+        string token1Input = token1InputField.text;
+        string address = SDKManager.Instance.walletAddress;
+        await Add( web3, address, token0Input, token1Input );
+    }
+
+    public async Task Add( Web3 web3, string address, string token0Val, string token1Val )
     {
         try
         {
-            var web3 = SDKManager.Instance.Web3;
-
             // Parse user input
-            BigInteger token0Input = BigInteger.Parse(token0InputField.text);
-            BigInteger token1Input = BigInteger.Parse(token1InputField.text);
+            BigInteger token0Input = BigInteger.Parse(token0Val);
+            BigInteger token1Input = BigInteger.Parse(token1Val);
 
             // Load token contracts
             var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.mytokenAddress);
@@ -75,9 +91,9 @@ public class AddLiquidity : MonoBehaviour
 
             // Check wallet balances
             BigInteger balance0 = await token0Contract.GetFunction("balanceOf")
-                .CallAsync<BigInteger>(SDKManager.Instance.walletAddress);
+                .CallAsync<BigInteger>(address);
             BigInteger balance1 = await token1Contract.GetFunction("balanceOf")
-                .CallAsync<BigInteger>(SDKManager.Instance.walletAddress);
+                .CallAsync<BigInteger>(address);
 
             Debug.Log($"Balances: token0={balance0}, token1={balance1}");
 
@@ -93,18 +109,20 @@ public class AddLiquidity : MonoBehaviour
             }
 
             // Approve if needed
-            await ApproveIfNeeded(web3, token0Contract, SDKManager.Instance.walletAddress, ABIManager.tokenpairAddress, token0Amount);
-            await ApproveIfNeeded(web3, token1Contract, SDKManager.Instance.walletAddress, ABIManager.tokenpairAddress, token1Amount);
+            await ApproveIfNeeded(web3, token0Contract, address, ABIManager.tokenpairAddress, token0Amount);
+            await ApproveIfNeeded(web3, token1Contract, address, ABIManager.tokenpairAddress, token1Amount);
 
             // Add liquidity
             var addLiquidityFunc = pairContract.GetFunction("addLiquidity");
 
             var gasAdd = await addLiquidityFunc.EstimateGasAsync(
-                SDKManager.Instance.walletAddress, null, null, token0Amount, token1Amount);
+                address, null, null, token0Amount, token1Amount);
             gasAdd = new HexBigInteger(gasAdd.Value + (gasAdd.Value / 5)); // +20% buffer
 
             var tx = await addLiquidityFunc.SendTransactionAsync(
-                SDKManager.Instance.walletAddress, gasAdd, null, token0Amount, token1Amount);
+                address, gasAdd, null, token0Amount, token1Amount);
+
+            DataLogger.Instance.LogOperation("AddLiquidity", tx, address);
 
             Debug.Log("Liquidity added! TxHash: " + tx);
         }
