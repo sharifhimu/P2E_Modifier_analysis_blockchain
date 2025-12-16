@@ -171,10 +171,6 @@ public class SwapToken : MonoBehaviour
         );
         var leaf = Sha3Keccack.Current.CalculateHash(encoded);
 
-        //Debug.Log($" leaf: {leaf} ");
-        //Debug.Log($"LEAF HASH (hex): 0x{BitConverter.ToString(leaf).Replace("-", "")}");
-        //Debug.Log($"ROOT (hex): 0x{BitConverter.ToString(SDKManager.Instance.CurrentMerkleTree.GetRoot()).Replace("-", "")}");
-
         // Find index of leaf
         int index = SDKManager.Instance.CurrentLeaves.FindIndex(l => l.SequenceEqual(leaf));
         if (index < 0)
@@ -193,21 +189,8 @@ public class SwapToken : MonoBehaviour
     public async void SwapTokens()
     {
         var web3 = SDKManager.Instance.Web3;
-
-        // Debug.Log($" SDKManager.Instance.CurrentMerkleTree: {SDKManager.Instance.CurrentMerkleTree} ");
-        // Debug.Log($" SDKManager.Instance.CurrentLeaves: {SDKManager.Instance.CurrentLeaves} ");
-        //Debug.Log($" SDKManager.Instance.CurrentEpochId: {SDKManager.Instance.CurrentEpochId} ");
-
-        // Step 1: Load CSV & Calculate EMA Modifiers
-        // string csvPath = Path.Combine(Application.persistentDataPath, "swap_log.csv");
     
         List<byte[]> merkleProof = GetMerkleProof();
-     
-        // for (int i = 0; i < merkleProof.Count; i++)
-        // {
-        //    string hex = "0x" + BitConverter.ToString(merkleProof[i]).Replace("-", "");
-        //    Debug.Log($"merkle Proof[{i}]: {hex}");
-        // }
 
         decimal amountDecimal = decimal.Parse(amountInput.text);
         BigInteger amountIn = Web3.Convert.ToWei(amountDecimal);
@@ -264,7 +247,11 @@ public class SwapToken : MonoBehaviour
             var swapContract = web3.Eth.GetContract( ABIManager.tokenpairABI, swapContractAddress);
 
             // before swap, read reserves and calculate reserve0Before, reserve1Before, kBefore
-
+                var reservesBefore = await swapContract.GetFunction("getReserves")
+                .CallDeserializingToObjectAsync<Reserves>();
+                double r0Before = (double)Web3.Convert.FromWei(reservesBefore.Reserve0);
+                double r1Before = (double)Web3.Convert.FromWei(reservesBefore.Reserve1);
+                double kBefore = r0Before * r1Before;
             //
 
             // Call swap function
@@ -292,9 +279,6 @@ public class SwapToken : MonoBehaviour
             // reserves BEFORE swap were used in EstimateSwap, so here just read AFTER
             var reservesAfter = await swapContract.GetFunction("getReserves")
                 .CallDeserializingToObjectAsync<Reserves>();
-
-            // optional: you can store reservesBefore from EstimateSwap in fields;
-            // here we treat "before" as unknown if you don't have it
             double r0After = (double)Web3.Convert.FromWei(reservesAfter.Reserve0);
             double r1After = (double)Web3.Convert.FromWei(reservesAfter.Reserve1);
             double kAfter = r0After * r1After;
@@ -304,6 +288,13 @@ public class SwapToken : MonoBehaviour
             double amountInTokens = (double)amountDecimal;   // already in token units
             double amountOutTokens = 0; // if you later read exact out, replace
 
+            // token balances
+            var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.mytokenAddress);
+            var token1Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.othertokenAddress);
+            BigInteger balance0 = await token0Contract.GetFunction("balanceOf").CallAsync<BigInteger>(SDKManager.Instance.walletAddress);
+            BigInteger balance1 = await token1Contract.GetFunction("balanceOf").CallAsync<BigInteger>(SDKManager.Instance.walletAddress);
+            var maxSwapAllowance = maxSwapAllowed.ToString();
+
             DataLogger.Instance.LogOperation(
                 "Swap",
                 swapTxHash,
@@ -311,11 +302,15 @@ public class SwapToken : MonoBehaviour
                 amountInTokens,
                 amountOutTokens,
                 direction,
-                0, 0,               // reserve0Before, reserve1Before (fill later if you cache)
+                r0Before, 
+                r1Before,               // reserve0Before, reserve1Before (fill later if you cache)
                 r0After,
                 r1After,
-                0,                  // kBefore
-                kAfter
+                kBefore,                  // kBefore
+                kAfter,
+                (double)balance0,
+                (double)balance1,
+                maxSwapAllowance
             );
 
             // BuildMerkleTree buildMerkleTreeInstance = buildMerkleTree.GetComponent<BuildMerkleTree>();

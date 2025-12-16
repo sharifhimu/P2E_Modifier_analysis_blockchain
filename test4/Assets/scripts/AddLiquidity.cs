@@ -122,7 +122,7 @@ public class AddLiquidity : MonoBehaviour
             var tx = await addLiquidityFunc.SendTransactionAsync(
                 address, gasAdd, null, token0Amount, token1Amount);
 
-            DataLogger.Instance.LogOperation("AddLiquidity", tx, address);
+            DataLogger.Instance.LogOperation("AddLiquidity", tx, address, (double)token0Amount, (double)token1Amount);
 
             Debug.Log("Liquidity added! TxHash: " + tx);
         }
