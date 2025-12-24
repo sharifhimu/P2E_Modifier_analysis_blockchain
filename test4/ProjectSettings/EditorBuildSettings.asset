@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SwapToken.unity
     guid: e3f41161aed85ee4caeeed46faf728c8
+  - enabled: 1
+    path: Assets/Scenes/UniSwap.unity
+    guid: dd728310f5a49024b99e274e5ce20ab3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

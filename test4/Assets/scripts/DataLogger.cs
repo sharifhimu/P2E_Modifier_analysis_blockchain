@@ -34,6 +34,7 @@ public class OperationRecord
     public double token0Balance;
     public double token1Balance;
     public string maxSwapAllowed;
+    public string epochId;
 }
 
 [System.Serializable]
@@ -41,6 +42,7 @@ public class OperationLog
 {
     public List<OperationRecord> operations = new List<OperationRecord>();
 }
+
 
 public class DataLogger : MonoBehaviour
 {
@@ -101,7 +103,8 @@ public class DataLogger : MonoBehaviour
         double kAfter = 0,
         double token0Balance=0, 
         double token1Balance=0,
-        string maxSwapAllowed=""
+        string maxSwapAllowed="",
+        string epochId = ""
     )
     {
         Debug.Log($"📊 Logging {operationType}: {txHash}: {playerAddress}");
@@ -139,7 +142,8 @@ public class DataLogger : MonoBehaviour
                 kAfter = kAfter,
                 token0Balance = token0Balance,
                 token1Balance = token1Balance,
-                maxSwapAllowed = maxSwapAllowed
+                maxSwapAllowed = maxSwapAllowed,
+                epochId = epochId
             };
 
             operationLog.operations.Add(record);
@@ -148,7 +152,6 @@ public class DataLogger : MonoBehaviour
             Debug.Log($"✅ Logged: {operationType} | Gas: {record.gasUsed:F0} | Price: {record.gasPrice:F6} Gwei | Cost: {record.gasCostETH:F8} ETH");
         }
     }
-
     private async System.Threading.Tasks.Task<Dictionary<string, string>> FetchTransactionDetailsAsync(string txHash)
     {
         string url = $"https://api.etherscan.io/v2/api?module=proxy&action=eth_getTransactionByHash&txhash={txHash}&chainid={chainId}&apikey={etherescanApiKey}";
@@ -232,7 +235,7 @@ public class DataLogger : MonoBehaviour
         {
             writer.WriteLine(
                 "Timestamp,OperationType,Player,TxHash,GasUsed,GasPriceGwei,GasCostETH,Method," +
-                "AmountIn,AmountOut,SwapDirection,Reserve0Before,Reserve1Before,Reserve0After,Reserve1After,KBefore,KAfter,token0Balance,token1Balance,maxSwapAllowed"
+                "AmountIn,AmountOut,SwapDirection,Reserve0Before,Reserve1Before,Reserve0After,Reserve1After,KBefore,KAfter,token0Balance,token1Balance,maxSwapAllowed,epochId"
             );
 
             foreach (var op in operationLog.operations)
@@ -242,7 +245,7 @@ public class DataLogger : MonoBehaviour
                     $"{op.gasUsed:F0},{op.gasPrice:F6},{op.gasCostETH:F8},{op.method}," +
                     $"{op.amountIn},{op.amountOut},{op.swapDirection}," +
                     $"{op.reserve0Before},{op.reserve1Before},{op.reserve0After},{op.reserve1After}," +
-                    $"{op.kBefore},{op.kAfter},{op.token0Balance},{op.token1Balance},{op.maxSwapAllowed}"
+                    $"{op.kBefore},{op.kAfter},{op.token0Balance},{op.token1Balance},{op.maxSwapAllowed},{op.epochId}"
                 );
             }
         }

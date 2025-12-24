@@ -230,7 +230,14 @@ public class AccountManager : MonoBehaviour
         }
 
         currentPlayerIndex = playerIndex;
-        SceneManager.LoadScene("Scene2");
+        if (SDKManager.Instance.localProjectRunning)
+        {
+            SceneManager.LoadScene("Scene2");
+        }
+        else
+        {
+            SceneManager.LoadScene("UniSwap");
+        }
         SDKManager.Instance.UpdateWeb3WithCurrentPlayer();
         Debug.Log($"✅ Selected Player {playerIndex + 1}/{playerAddresses.Count}: {CurrentAddress.Substring(0, 10)}...");
     }

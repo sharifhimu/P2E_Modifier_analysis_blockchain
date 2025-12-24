@@ -1,10 +1,11 @@
-﻿using System;
-using UnityEngine;
-using Nethereum.Web3;
+﻿using Nethereum.Web3;
 using Nethereum.Web3.Accounts;
-using System.Threading.Tasks;
-using System.Numerics;
+using System;
 using System.Collections.Generic;
+using System.Numerics;
+using System.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SDKManager : MonoBehaviour
 {
@@ -30,8 +31,7 @@ public class SDKManager : MonoBehaviour
 
     public GameObject buildMerkleTree;
 
-    private double epochDuration = 0; // ✅ Store epoch duration
-    private bool isEpochLoopRunning = false; // ✅ Track loop state
+    public bool localProjectRunning = false;
 
     async void Start()
     {
@@ -104,16 +104,22 @@ public class SDKManager : MonoBehaviour
 
             BuildMerkleTree buildMerkleTreeInstance = buildMerkleTree.GetComponent<BuildMerkleTree>();
 
-            // ✅ ADD THIS WHILE LOOP
-            while (true)  // ← INFINITE LOOP
+            if (localProjectRunning) { 
+                // ✅ ADD THIS WHILE LOOP
+                while (true)  // ← INFINITE LOOP
+                {
+                    // ✅ This runs AFTER every delay
+                    Debug.Log($"⚡ EPOCH TRIGGERED! Updating Merkle Root...");
+                    await buildMerkleTreeInstance.CheckAndSaveBalancesAsync(playerAddresses);
+
+                    Debug.Log($"⏳ Waiting {durationFloat} seconds for next epoch...");
+                    await Task.Delay(System.TimeSpan.FromSeconds(durationFloat));
+
+                }
+            }
+            else
             {
-                // ✅ This runs AFTER every delay
-                Debug.Log($"⚡ EPOCH TRIGGERED! Updating Merkle Root...");
-                await buildMerkleTreeInstance.CheckAndSaveBalancesAsync(playerAddresses);
-
-                Debug.Log($"⏳ Waiting {durationFloat} seconds for next epoch...");
-                await Task.Delay(System.TimeSpan.FromSeconds(durationFloat));
-
+                SceneManager.LoadScene("Scene1");
             }
 
         }
@@ -123,11 +129,4 @@ public class SDKManager : MonoBehaviour
         }
     }
 
-
-    // ✅ Optional: Stop the loop manually if needed
-    public void StopEpochLoop()
-    {
-        isEpochLoopRunning = false;
-        Debug.Log("🛑 Epoch loop stopped");
-    }
 }

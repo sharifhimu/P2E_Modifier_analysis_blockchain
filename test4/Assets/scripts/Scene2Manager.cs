@@ -32,7 +32,16 @@ public class Scene2Manager : MonoBehaviour
     }
 
     public void AddLiquidity() => SceneManager.LoadScene("AddLiquidity");
-    public void SwapToken() => SceneManager.LoadScene("SwapToken");
+    //public void SwapToken() => SceneManager.LoadScene("SwapToken");
+    public void SwapToken() {
+        if (SDKManager.Instance.localProjectRunning)
+        {
+            SceneManager.LoadScene("SwapToken");
+        }
+        else {
+            SceneManager.LoadScene("UniSwap");
+        }
+    }
     public void Back() => SceneManager.LoadScene("Scene1");
 
     public async void CheckReserve()

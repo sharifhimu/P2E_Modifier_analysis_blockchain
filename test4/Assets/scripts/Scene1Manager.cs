@@ -111,7 +111,7 @@ public class Scene1Manager : MonoBehaviour
             buttonText.text = $"Player {i + 1}\n{shortAddress}";
             //}
 
-            Debug.Log($"✅ Created button for Player {i + 1}: {address}");
+            //Debug.Log($"✅ Created button for Player {i + 1}: {address}");
         }
 
         Debug.Log($"✅ All {allPlayerAddresses.Count} player buttons created!");

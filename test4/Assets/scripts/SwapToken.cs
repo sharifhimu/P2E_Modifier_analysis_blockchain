@@ -310,7 +310,8 @@ public class SwapToken : MonoBehaviour
                 kAfter,
                 (double)balance0,
                 (double)balance1,
-                maxSwapAllowance
+                maxSwapAllowance,
+                SDKManager.Instance.CurrentEpochId.ToString()
             );
 
             // BuildMerkleTree buildMerkleTreeInstance = buildMerkleTree.GetComponent<BuildMerkleTree>();
