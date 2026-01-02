@@ -26,8 +26,9 @@ public class SwapTokenUniswap : MonoBehaviour
     private string ROUTER_ABI = ABIManager.uniswapV2ABI;
     private string ROUTER_TOKENPAIR_ABI = ABIManager.uniswapV2TokenPairABI;
 
-    void Start()
+    async void Start()
     {
+        await CheckBalance();
     }
 
     public async void SwapTokens()
@@ -53,6 +54,18 @@ public class SwapTokenUniswap : MonoBehaviour
             string tokenInAddress = (tokenSelection.value == 0) ? MYT_TOKEN : OTK_TOKEN;
             string tokenOutAddress = (tokenSelection.value == 0) ? OTK_TOKEN : MYT_TOKEN;
             string swapDirection = (tokenSelection.value == 0) ? "0->1" : "1->0";
+
+            decimal price;
+            if (tokenSelection.value == 0) // Token0 → Token1
+            {
+                price = (decimal)reserve0 / (decimal)reserve1;
+                warningText.text = $"1 Token1 = {price} Token0";
+            }
+            else // Token1 → Token0
+            {
+                price = (decimal)reserve1 / (decimal)reserve0;
+                warningText.text = $"1 Token0 = {price} Token1";
+            }
 
             string tokenInAbi = (tokenSelection.value == 0) ? ABIManager.mytokenABI : ABIManager.othertokenABI;
             string tokenOutAbi = (tokenSelection.value == 0) ? ABIManager.othertokenABI : ABIManager.mytokenABI;
@@ -366,4 +379,35 @@ public class SwapTokenUniswap : MonoBehaviour
     {
         SceneManager.LoadScene("Scene1");
     }
+
+    private async Task CheckBalance()
+    {
+        try
+        {
+            var web3 = SDKManager.Instance.Web3;
+
+            // Debug.Log($"mytokenadd: {ABIManager.mytokenAddress} othertokenAdd: { ABIManager.othertokenAddress } ");
+
+            // Load token contracts
+            var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.mytokenAddress);
+            var token1Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.othertokenAddress);
+
+            BigInteger balance0 = await token0Contract.GetFunction("balanceOf")
+                .CallAsync<BigInteger>(SDKManager.Instance.walletAddress);
+            BigInteger balance1 = await token1Contract.GetFunction("balanceOf")
+                .CallAsync<BigInteger>(SDKManager.Instance.walletAddress);
+
+            var normalizedBalance0 = Web3.Convert.FromWei(balance0);
+            var normalizedBalance1 = Web3.Convert.FromWei(balance1);
+
+            // Debug.Log($"Balances: balance0={balance0}, balance1={balance1}");
+            Debug.Log($"Balances: token0={normalizedBalance0}, token1={normalizedBalance1}");
+
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Error calling the contract: " + ex.Message);
+        }
+    }
+
 }

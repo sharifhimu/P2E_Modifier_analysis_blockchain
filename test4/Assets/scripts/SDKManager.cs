@@ -31,7 +31,7 @@ public class SDKManager : MonoBehaviour
 
     public GameObject buildMerkleTree;
 
-    public bool localProjectRunning = false;
+    public bool localProjectRunning = true;
 
     async void Start()
     {
@@ -104,8 +104,8 @@ public class SDKManager : MonoBehaviour
 
             BuildMerkleTree buildMerkleTreeInstance = buildMerkleTree.GetComponent<BuildMerkleTree>();
 
-            if (localProjectRunning) { 
-                // ✅ ADD THIS WHILE LOOP
+                Debug.Log($" localProjectRunning: {localProjectRunning} ");
+            if (localProjectRunning) {
                 while (true)  // ← INFINITE LOOP
                 {
                     // ✅ This runs AFTER every delay

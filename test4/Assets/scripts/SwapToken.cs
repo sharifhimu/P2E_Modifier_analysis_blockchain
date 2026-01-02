@@ -115,8 +115,13 @@ public class SwapToken : MonoBehaviour
 
     }
 
+    public void OnEstimateButton()
+    {
+        // Fire-and-forget; ignore return value
+        _ = EstimateSwap();
+    }
 
-   public async void EstimateSwap()
+    public async Task<decimal> EstimateSwap()
     {
 
         var web3 = SDKManager.Instance.Web3;
@@ -150,6 +155,8 @@ public class SwapToken : MonoBehaviour
 
         decimal amountOut = Web3.Convert.FromWei(amountOutWei);
         estimateOutput.text = $"Estimated Output: {amountOut}";
+
+        return amountOut;
     }
 
     public List<byte[]> GetMerkleProof()
@@ -219,11 +226,13 @@ public class SwapToken : MonoBehaviour
             }
             string swapContractAddress = ABIManager.tokenpairAddress;
 
+            // amount out 
+            decimal amountOutTokens = await EstimateSwap();
+
+
             // Approve the swap contract
             var tokenContract = web3.Eth.GetContract( tokenAbi, tokenInAddress);
             var approveFunction = tokenContract.GetFunction("approve");
-
-
             //Debug.Log($"Approving {amountIn} tokens for {swapContractAddress}...");
             var approveTxHash = await approveFunction.SendTransactionAsync(
                 SDKManager.Instance.walletAddress,
@@ -251,7 +260,7 @@ public class SwapToken : MonoBehaviour
                 .CallDeserializingToObjectAsync<Reserves>();
                 double r0Before = (double)Web3.Convert.FromWei(reservesBefore.Reserve0);
                 double r1Before = (double)Web3.Convert.FromWei(reservesBefore.Reserve1);
-                double kBefore = r0Before * r1Before;
+                //double kBefore = r0Before * r1Before;
             //
 
             // Call swap function
@@ -276,17 +285,9 @@ public class SwapToken : MonoBehaviour
 
             Debug.Log("Swap transaction hash: " + swapTxHash);
 
-            // reserves BEFORE swap were used in EstimateSwap, so here just read AFTER
-            var reservesAfter = await swapContract.GetFunction("getReserves")
-                .CallDeserializingToObjectAsync<Reserves>();
-            double r0After = (double)Web3.Convert.FromWei(reservesAfter.Reserve0);
-            double r1After = (double)Web3.Convert.FromWei(reservesAfter.Reserve1);
-            double kAfter = r0After * r1After;
-
             // direction + amounts in token units
             string direction = isToken0To1 ? "0->1" : "1->0";
             double amountInTokens = (double)amountDecimal;   // already in token units
-            double amountOutTokens = 0; // if you later read exact out, replace
 
             // token balances
             var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.mytokenAddress);
@@ -300,14 +301,14 @@ public class SwapToken : MonoBehaviour
                 swapTxHash,
                 SDKManager.Instance.walletAddress,
                 amountInTokens,
-                amountOutTokens,
+                (double)amountOutTokens,
                 direction,
                 r0Before, 
                 r1Before,               // reserve0Before, reserve1Before (fill later if you cache)
-                r0After,
-                r1After,
-                kBefore,                  // kBefore
-                kAfter,
+                0,
+                0,
+                0,                  // kBefore
+                0,
                 (double)balance0,
                 (double)balance1,
                 maxSwapAllowance,

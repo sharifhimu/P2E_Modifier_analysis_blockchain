@@ -46,6 +46,8 @@ public class BuildMerkleTree : MonoBehaviour
 
             List<(string address, string bal0, string bal1, string allowance)> playerInfos = new();
 
+            DateTime startTime = DateTime.UtcNow;
+
             foreach (var address in playerAddresses)
             {
                 var safeAllowanceHex = await fn.CallAsync<BigInteger>(address);
@@ -82,14 +84,59 @@ public class BuildMerkleTree : MonoBehaviour
             // 🔹 Call setMerkleRoot(epochId, root)
             var rootBytes32 = ("0x" + root).HexToByteArray();
             var setMerkleRootFn = pairContract.GetFunction("setMerkleRoot");
+
+            // ✅ STEP 1: Estimate gas
+            var estimatedGas = await setMerkleRootFn.EstimateGasAsync(
+                SDKManager.Instance.ownerAddress,
+                null,
+                null,
+                epochId,
+                rootBytes32
+            );
+
+            // ✅ STEP 2: Convert and add buffer
+            BigInteger gasLimit = estimatedGas.Value;  // Convert HexBigInteger → BigInteger
+            BigInteger gasWithBuffer = (gasLimit * 120) / 100;
+
+            Debug.Log($"[Merkle] Estimated Gas: {gasLimit}");
+            Debug.Log($"[Merkle] Gas Limit with 20% buffer: {gasWithBuffer}");
+
+            // gas price
+            var gasPriceWei = await web3.Eth.GasPrice.SendRequestAsync();
+            BigInteger gasPrice = (gasPriceWei.Value * 120) / 100;  // +20% buffer
+            //BigInteger maxPriorityFee = Web3.Convert.ToWei(1, UnitConversion.EthUnit.Gwei);
+
+            // ✅ STEP 3: Send transaction with dynamic gas (FIXED)
             var txReceipt = await setMerkleRootFn.SendTransactionAndWaitForReceiptAsync(
                 from: SDKManager.Instance.ownerAddress,
-                gas: new Nethereum.Hex.HexTypes.HexBigInteger(600000),
-                value: null,
+                gas: new Nethereum.Hex.HexTypes.HexBigInteger(gasLimit),
+                gasPrice: new Nethereum.Hex.HexTypes.HexBigInteger(gasPriceWei.Value),
+                //null,
+                //null,
+                value: new Nethereum.Hex.HexTypes.HexBigInteger(0),  // ← Change null to 0 HexBigInteger
                 functionInput: new object[] { epochId, rootBytes32 }
             );
 
-            DataLogger.Instance.LogOperation("SetMerkleRoot", txReceipt.TransactionHash, SDKManager.Instance.ownerAddress);
+            double executionTime = (DateTime.UtcNow - startTime).TotalSeconds;
+
+            DataLogger.Instance.LogOperation("SetMerkleRoot", 
+                                            txReceipt.TransactionHash, 
+                                            SDKManager.Instance.ownerAddress,
+                                            0,
+                                            0,
+                                            "",
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            0,
+                                            "",
+                                            "",
+                                            executionTime
+                                            );
 
             // Debug.Log("setMerkleRoot TxHash: " + txReceipt.TransactionHash);
             if (!String.IsNullOrEmpty(txReceipt.TransactionHash))
@@ -106,6 +153,7 @@ public class BuildMerkleTree : MonoBehaviour
         catch (Exception ex)
         {
             Debug.LogError("Error in CheckAndSaveBalancesAsync: " + ex.Message);
+            Debug.LogError($"[Merkle] Stack Trace: {ex.StackTrace}");
         }
     }
 

@@ -477,7 +477,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1821617254}
         m_TargetAssemblyTypeName: SwapToken, Assembly-CSharp
-        m_MethodName: EstimateSwap
+        m_MethodName: OnEstimateButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3366,7 +3366,6 @@ MonoBehaviour:
   exchangeRateText: {fileID: 1364639482}
   estimateOutput: {fileID: 1964206653}
   warningText: {fileID: 1137416737}
-  buildMerkleTree: {fileID: 1353712692}
 --- !u!1 &1873382904
 GameObject:
   m_ObjectHideFlags: 0

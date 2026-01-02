@@ -35,6 +35,7 @@ public class OperationRecord
     public double token1Balance;
     public string maxSwapAllowed;
     public string epochId;
+    public double executionTime;
 }
 
 [System.Serializable]
@@ -104,7 +105,8 @@ public class DataLogger : MonoBehaviour
         double token0Balance=0, 
         double token1Balance=0,
         string maxSwapAllowed="",
-        string epochId = ""
+        string epochId = "",
+        double executionTime = 0
     )
     {
         Debug.Log($"📊 Logging {operationType}: {txHash}: {playerAddress}");
@@ -143,7 +145,8 @@ public class DataLogger : MonoBehaviour
                 token0Balance = token0Balance,
                 token1Balance = token1Balance,
                 maxSwapAllowed = maxSwapAllowed,
-                epochId = epochId
+                epochId = epochId,
+                executionTime = executionTime
             };
 
             operationLog.operations.Add(record);
@@ -235,7 +238,7 @@ public class DataLogger : MonoBehaviour
         {
             writer.WriteLine(
                 "Timestamp,OperationType,Player,TxHash,GasUsed,GasPriceGwei,GasCostETH,Method," +
-                "AmountIn,AmountOut,SwapDirection,Reserve0Before,Reserve1Before,Reserve0After,Reserve1After,KBefore,KAfter,token0Balance,token1Balance,maxSwapAllowed,epochId"
+                "AmountIn,AmountOut,SwapDirection,Reserve0Before,Reserve1Before,token0Balance,token1Balance,maxSwapAllowed,epochId,executionTime"
             );
 
             foreach (var op in operationLog.operations)
@@ -244,8 +247,7 @@ public class DataLogger : MonoBehaviour
                     $"{op.timestamp},{op.operationType},{op.player},{op.transactionHash}," +
                     $"{op.gasUsed:F0},{op.gasPrice:F6},{op.gasCostETH:F8},{op.method}," +
                     $"{op.amountIn},{op.amountOut},{op.swapDirection}," +
-                    $"{op.reserve0Before},{op.reserve1Before},{op.reserve0After},{op.reserve1After}," +
-                    $"{op.kBefore},{op.kAfter},{op.token0Balance},{op.token1Balance},{op.maxSwapAllowed},{op.epochId}"
+                    $"{op.reserve0Before},{op.reserve1Before},{op.token0Balance},{op.token1Balance},{op.maxSwapAllowed},{op.epochId},{op.executionTime}"
                 );
             }
         }

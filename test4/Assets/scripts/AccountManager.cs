@@ -71,10 +71,10 @@ public class AccountManager : MonoBehaviour
         }
     }
 
-    [ContextMenu("Generate 100 Accounts")]
+    [ContextMenu("Generate 500 Accounts")]
     public void GenerateAccounts()
     {
-        Debug.Log("🔄 Generating 100 accounts...");
+        Debug.Log("🔄 Generating 500 accounts...");
 
         List<string> addresses = new List<string>();
         List<string> privateKeys = new List<string>();
@@ -85,7 +85,7 @@ public class AccountManager : MonoBehaviour
         {
             var wallet = new Wallet(seedPhrase, "");
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 500; i++)  // ← Changed from 100 to 500
             {
                 var account = wallet.GetAccount(i);
                 addresses.Add(account.Address);
@@ -113,7 +113,7 @@ public class AccountManager : MonoBehaviour
             string json = JsonConvert.SerializeObject(accountData, Formatting.Indented);
             File.WriteAllText(accountsFilePath, json);
 
-            Debug.Log($"✅ Generated and saved 100 accounts to: {accountsFilePath}");
+            Debug.Log($"✅ Generated and saved 500 accounts to: {accountsFilePath}");  // ← Updated message
 
 #if UNITY_EDITOR
             UnityEditor.AssetDatabase.Refresh();
@@ -127,6 +127,7 @@ public class AccountManager : MonoBehaviour
             Debug.LogError($"Stack trace: {ex.StackTrace}");
         }
     }
+
 
     [ContextMenu("Fix & Clean JSON")]
     public void FixJsonFile()
