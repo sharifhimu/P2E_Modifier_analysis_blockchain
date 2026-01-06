@@ -71,10 +71,10 @@ public class AccountManager : MonoBehaviour
         }
     }
 
-    [ContextMenu("Generate 500 Accounts")]
+    [ContextMenu("Generate 1000 Accounts")]
     public void GenerateAccounts()
     {
-        Debug.Log("🔄 Generating 500 accounts...");
+        Debug.Log("🔄 Generating 1000 accounts...");
 
         List<string> addresses = new List<string>();
         List<string> privateKeys = new List<string>();
@@ -85,7 +85,7 @@ public class AccountManager : MonoBehaviour
         {
             var wallet = new Wallet(seedPhrase, "");
 
-            for (int i = 0; i < 500; i++)  // ← Changed from 100 to 500
+            for (int i = 0; i < 1000; i++)  // ← Changed from 100 to 500
             {
                 var account = wallet.GetAccount(i);
                 addresses.Add(account.Address);
@@ -204,7 +204,10 @@ public class AccountManager : MonoBehaviour
             //playerAddresses.Add(ownerAddress);
             //accountPrivateKeys[ownerAddress] = ownerPrivateKey;
 
-            for (int i = 0; i < accountData.addresses.Length; i++)
+            int maxAccounts = 100;
+            int accountsToLoad = Mathf.Min(maxAccounts, accountData.addresses.Length);
+
+            for (int i = 0; i < accountsToLoad; i++)
             {
                 string address = accountData.addresses[i].ToLowerInvariant();
                 playerAddresses.Add(address);

@@ -268,7 +268,7 @@ public class SwapToken : MonoBehaviour
             // var swapGas = await swapFunction.EstimateGasAsync( SDKManager.Instance.walletAddress, null, null, amountIn, isToken0To1 );
             var swapFunction = swapContract.GetFunction("swapWithProof");
             var swapGas = await swapFunction.EstimateGasAsync( SDKManager.Instance.walletAddress, null, null, amountIn, isToken0To1, maxSwapAllowed, merkleProof, SDKManager.Instance.CurrentEpochId );
-            swapGas = new HexBigInteger(swapGas.Value + (swapGas.Value / 5)); // +20% buffer
+            //swapGas = new HexBigInteger(swapGas.Value + (swapGas.Value / 5)); // +20% buffer
 
 
             //Debug.Log("Calling swap...");
