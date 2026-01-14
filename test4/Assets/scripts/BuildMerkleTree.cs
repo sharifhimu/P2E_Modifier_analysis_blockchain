@@ -33,6 +33,8 @@ public class BuildMerkleTree : MonoBehaviour
         {
             var web3 = SDKManager.Instance.Web3Owner;
 
+            //Debug.Log("playeraddress " + AccountManager.Instance.playerAddresses);
+
 
             var token0Contract = web3.Eth.GetContract(ABIManager.mytokenABI, ABIManager.mytokenAddress);
             var token1Contract = web3.Eth.GetContract(ABIManager.othertokenABI, ABIManager.othertokenAddress);
@@ -70,6 +72,43 @@ public class BuildMerkleTree : MonoBehaviour
 
             }
 
+            //var reqNumber = 1;
+            //var tasks = new List<Task>();
+            //var semaphore = new System.Threading.SemaphoreSlim(reqNumber); // Max 5 concurrent requests
+
+            //foreach (var address in playerAddresses)
+            //{
+            //    await semaphore.WaitAsync(); // Wait if we have 10 running
+
+            //    var task = Task.Run(async () =>
+            //    {
+            //        try
+            //        {
+            //            var bal0Hex = await balanceOfToken0.CallAsync<BigInteger>(address);
+            //            var bal1Hex = await balanceOfToken1.CallAsync<BigInteger>(address);
+            //            var safeAllowanceHex = await fn.CallAsync<BigInteger>(address);
+
+            //            // Convert to Wei strings
+            //            var bal0 = Web3.Convert.FromWei(bal0Hex).ToString();
+            //            var bal1 = Web3.Convert.FromWei(bal1Hex).ToString();
+
+            //            // Save allowance to SDKManager
+            //            SDKManager.Instance.playerAllowences[address.ToLowerInvariant()] = safeAllowanceHex;
+
+            //            // Add to playerInfos list
+            //            playerInfos.Add((address, bal0, bal1, safeAllowanceHex.ToString()));
+            //        }
+            //        finally
+            //        {
+            //            semaphore.Release(); // Release slot for next request
+            //        }
+            //    });
+
+            //    tasks.Add(task);
+            //}
+
+            //await Task.WhenAll(tasks); // Wait for all to finish
+
 
             // 🔹 Fetch epochDuration & compute current epochId
             var epochIdFn = pairContract.GetFunction("currentEpochId");
@@ -85,13 +124,18 @@ public class BuildMerkleTree : MonoBehaviour
             var rootBytes32 = ("0x" + root).HexToByteArray();
             var setMerkleRootFn = pairContract.GetFunction("setMerkleRoot");
 
+            var playerAddressesToPrune = playerAddresses
+            .Select(addr => addr.ToLower()) // Normalize
+            .ToArray();
+
             // ✅ STEP 1: Estimate gas
             var estimatedGas = await setMerkleRootFn.EstimateGasAsync(
                 SDKManager.Instance.ownerAddress,
                 null,
                 null,
                 epochId,
-                rootBytes32
+                rootBytes32,
+                playerAddressesToPrune
             );
 
             // ✅ STEP 2: Convert and add buffer
@@ -114,7 +158,7 @@ public class BuildMerkleTree : MonoBehaviour
                 //null,
                 //null,
                 value: new Nethereum.Hex.HexTypes.HexBigInteger(0),  // ← Change null to 0 HexBigInteger
-                functionInput: new object[] { epochId, rootBytes32 }
+                functionInput: new object[] { epochId, rootBytes32, playerAddressesToPrune }
             );
 
             double executionTime = (DateTime.UtcNow - startTime).TotalSeconds;

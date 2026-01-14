@@ -1012,7 +1012,7 @@ const addresses = [
 ]
         
         // which address to start
-        const startIndex = 990;
+        const startIndex = 0;
         // const endIndex = 10;
         const remainingAddresses = addresses.slice(startIndex);
         //const remainingAddresses = addresses;

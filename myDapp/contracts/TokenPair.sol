@@ -7,6 +7,10 @@ pragma solidity ^0.8.19;
 // bal.toString()                  // raw units
 // web3.utils.fromWei(bal)         // if 18 decimals
 
+// let amount = web3.utils.toWei("10", "ether")
+//  await token0.approve(pair.address, amount0, { from: lp })
+// await pair.addLiquidity(amount0, amount1, { from: lp })
+
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -60,6 +64,7 @@ contract TokenPair is Ownable {
 
     // epoch duration (DAO adjustable)
     uint256 public epochDuration;
+    uint256 public pruneWindow = 2;
 
     constructor(address _token0, address _token1) {
         token0 = _token0;
@@ -79,7 +84,8 @@ contract TokenPair is Ownable {
     event BalanceBoostBpsChanged(uint256 newBps);
     event FlatBoostChanged(uint256 newFlat);
 
-
+    event LogEpochPruned(uint256 indexed pruneEpoch, uint256 numPlayers);
+    event PruneWindowUpdated(uint256 oldWindow, uint256 newWindow);
 
     // DAO can switch the logic type
     function setExtraLogic(ExtraLogicType newLogic) external onlyOwner {
@@ -267,10 +273,37 @@ contract TokenPair is Ownable {
         return block.timestamp / epochDuration;
     }
 
+    function pruneOldEpoch(uint256 epochId, address[] calldata playersToDelete) internal {
+        require(epochId >= 2, "Cannot prune current/recent epochs");
+        
+        uint256 pruneEpoch = epochId - pruneWindow;
+        
+        // Delete usedBy entries for this epoch
+        for (uint256 i = 0; i < playersToDelete.length; i++) {
+            delete usedBy[pruneEpoch][playersToDelete[i]];
+        }
+        
+        // Delete the old Merkle root
+        delete merkleRootOf[pruneEpoch];
+        
+        emit LogEpochPruned(pruneEpoch, playersToDelete.length);
+    }
+
     /// @notice DAO sets the Merkle root for a specific epoch (usually the current one).
-    function setMerkleRoot(uint256 epochId, bytes32 root) external onlyOwner {
+    function setMerkleRoot(uint256 epochId, 
+                           bytes32 root,
+                           address[] calldata playersToDelete ) external onlyOwner {
         merkleRootOf[epochId] = root;
         emit LogRootSet(epochId, root);
+
+        pruneOldEpoch(epochId, playersToDelete);
+    }
+
+    function setPruneWindow(uint256 newWindow) external onlyOwner {
+        require(newWindow >= 1 && newWindow <= 10, "Window must be 1-10 epochs");
+        uint256 oldWindow = pruneWindow;
+        pruneWindow = newWindow;
+        emit PruneWindowUpdated(oldWindow, newWindow);
     }
 
     function checkProof(uint256 epochId, address sender, uint256 allowance, bytes32[] calldata proof) 

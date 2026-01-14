@@ -14,9 +14,17 @@ public class ABIManager : MonoBehaviour
 	public static string uniswapV2ABI;
 	public static string uniswapV2TokenPairABI;
 
-    public static string tokenpairAddress = "0x8ca963C4E56C5E873530D0993ee22030C32F0cc8";
-	public static string mytokenAddress = "0x338E5a41da5EfF93236f295228d4bFAda8fd4d50";
-	public static string othertokenAddress = "0x19b64588e861B0Ce0440C85B4E35BD02909bd7fc";
+    // testnet
+    public static string tokenpairAddress = "0xe6BA29878D23F1ea3d9122607Cfdad396B134ED0";
+    public static string mytokenAddress = "0x85c4425A0aa3b351EC51049ab3E03b4738423562";
+    public static string othertokenAddress = "0xb4a8f37F2a43b96284707226E509675630d8038f";
+
+    //ganache
+    //public static string tokenpairAddress = "0x8Df8801b6a2491C6FFdc6A939AeE22A55eA84398";
+    //public static string mytokenAddress = "0x0DcF19699901AEd35bE3c81d3B7b13E7abF11b76";
+    //public static string othertokenAddress = "0xEbB493d0007E78e150A496d1ABcf8614a7D93138";
+
+
     public static string uniswapRouterAddress = "0xeE567Fe1712Faf6149d80dA1E6934E354124CfE3"; // Sepolia V2 Router
     // 0xeE567Fe1712Faf6149d80dA1E6934E354124CfE3 0xC532a74256D3Db42D0Bf7a0489b1d663F30D4E7d
     public static string uniswapPairAddress = "0x4c88Bf9dAd5002303104059fAfD96Ed26727061a";
