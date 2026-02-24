@@ -204,7 +204,7 @@ public class AccountManager : MonoBehaviour
             //playerAddresses.Add(ownerAddress);
             //accountPrivateKeys[ownerAddress] = ownerPrivateKey;
 
-            int maxAccounts = 100;
+            int maxAccounts = 20;
             int accountsToLoad = Mathf.Min(maxAccounts, accountData.addresses.Length);
 
             for (int i = 0; i < accountsToLoad; i++)

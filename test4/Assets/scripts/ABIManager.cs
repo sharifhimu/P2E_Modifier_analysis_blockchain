@@ -15,9 +15,12 @@ public class ABIManager : MonoBehaviour
 	public static string uniswapV2TokenPairABI;
 
     // testnet
-    public static string tokenpairAddress = "0xe6BA29878D23F1ea3d9122607Cfdad396B134ED0";
-    public static string mytokenAddress = "0x85c4425A0aa3b351EC51049ab3E03b4738423562";
-    public static string othertokenAddress = "0xb4a8f37F2a43b96284707226E509675630d8038f";
+    public static string tokenpairAddress = "0x625a6FDf990a8c6425bc6CB0638a7fc677eAf6f7";  // "0x7A92cE7C7A8A68D7EE6873f9c89878761cAD7413";
+    public static string mytokenAddress = "0xc259a7FF7F48F0bF95DE77c8dC4c31be9F41362f";  // "0x66c16D0e4bf6048165D041e29A43d2c93E04168e";
+    public static string othertokenAddress = "0xB1A233A9f7f37CaB49391664F7c4a4892F4BA1AB"; // "0x90d2ae79828a13B9d74F6A48E1C01D603938237c";
+
+    // otk 0x19b64588e861B0Ce0440C85B4E35BD02909bd7fc
+    // myt 0x338E5a41da5EfF93236f295228d4bFAda8fd4d50
 
     //ganache
     //public static string tokenpairAddress = "0x8Df8801b6a2491C6FFdc6A939AeE22A55eA84398";
@@ -27,7 +30,10 @@ public class ABIManager : MonoBehaviour
 
     public static string uniswapRouterAddress = "0xeE567Fe1712Faf6149d80dA1E6934E354124CfE3"; // Sepolia V2 Router
     // 0xeE567Fe1712Faf6149d80dA1E6934E354124CfE3 0xC532a74256D3Db42D0Bf7a0489b1d663F30D4E7d
-    public static string uniswapPairAddress = "0x4c88Bf9dAd5002303104059fAfD96Ed26727061a";
+    public static string uniswapPairAddress = "0xaB9D9f5d052769BE43309B106BEBB3cB0923d19e"; // "0x4c88Bf9dAd5002303104059fAfD96Ed26727061a";  // "0xaB9D9f5d052769BE43309B106BEBB3cB0923d19e";
+    public static string uniswapPairMYT = "0xc259a7FF7F48F0bF95DE77c8dC4c31be9F41362f"; // "0x338E5a41da5EfF93236f295228d4bFAda8fd4d50"; // "0xc259a7FF7F48F0bF95DE77c8dC4c31be9F41362f";
+    public static string uniswapPairOTK = "0xB1A233A9f7f37CaB49391664F7c4a4892F4BA1AB"; // "0x19b64588e861B0Ce0440C85B4E35BD02909bd7fc"; // "0xB1A233A9f7f37CaB49391664F7c4a4892F4BA1AB";
+
 
     void Awake()
     {

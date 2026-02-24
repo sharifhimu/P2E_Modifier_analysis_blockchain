@@ -21,8 +21,8 @@ public class SwapTokenUniswap : MonoBehaviour
 
     private string UNISWAP_ROUTER_ADDRESS = ABIManager.uniswapRouterAddress;
     private string UNISWAP_TOKENPAIR_ADDRESS = ABIManager.uniswapPairAddress;
-    private string MYT_TOKEN = ABIManager.mytokenAddress;
-    private string OTK_TOKEN = ABIManager.othertokenAddress;
+    private string MYT_TOKEN = ABIManager.uniswapPairMYT; // mytokenAddress
+    private string OTK_TOKEN = ABIManager.uniswapPairOTK; // othertokenAddress
     private string ROUTER_ABI = ABIManager.uniswapV2ABI;
     private string ROUTER_TOKENPAIR_ABI = ABIManager.uniswapV2TokenPairABI;
 

@@ -2,14 +2,18 @@
 pragma solidity ^0.8.19;
 
 // command
-// let token = await MyToken.deployed()   // ERC‑20 token
-// let bal = await token.balanceOf(contract.address)  // contract holding tokens
-// bal.toString()                  // raw units
-// web3.utils.fromWei(bal)         // if 18 decimals
-
-// let amount = web3.utils.toWei("10", "ether")
-//  await token0.approve(pair.address, amount0, { from: lp })
-// await pair.addLiquidity(amount0, amount1, { from: lp })
+//  let contract = await TokenPair.deployed()
+//  let balances = await contract.getReserves()
+//  web3.utils.fromWei( balances[0].toString() )
+//  web3.utils.fromWei( balances[1].toString() )
+//  let token0 = await MyToken.deployed()
+//  let token1 = await OtherToken.deployed()
+//   let amount = web3.utils.toWei("25000", "ether")
+//   let accs = await web3.eth.getAccounts()
+//   let lp = accs[0]
+//   await token0.approve(contract.address, amount, { from: lp })
+//   await token1.approve(contract.address, amount, { from: lp })
+//     await contract.addLiquidity(amount, amount, { from: lp })
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";

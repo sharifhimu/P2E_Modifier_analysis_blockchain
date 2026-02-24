@@ -72,43 +72,6 @@ public class BuildMerkleTree : MonoBehaviour
 
             }
 
-            //var reqNumber = 1;
-            //var tasks = new List<Task>();
-            //var semaphore = new System.Threading.SemaphoreSlim(reqNumber); // Max 5 concurrent requests
-
-            //foreach (var address in playerAddresses)
-            //{
-            //    await semaphore.WaitAsync(); // Wait if we have 10 running
-
-            //    var task = Task.Run(async () =>
-            //    {
-            //        try
-            //        {
-            //            var bal0Hex = await balanceOfToken0.CallAsync<BigInteger>(address);
-            //            var bal1Hex = await balanceOfToken1.CallAsync<BigInteger>(address);
-            //            var safeAllowanceHex = await fn.CallAsync<BigInteger>(address);
-
-            //            // Convert to Wei strings
-            //            var bal0 = Web3.Convert.FromWei(bal0Hex).ToString();
-            //            var bal1 = Web3.Convert.FromWei(bal1Hex).ToString();
-
-            //            // Save allowance to SDKManager
-            //            SDKManager.Instance.playerAllowences[address.ToLowerInvariant()] = safeAllowanceHex;
-
-            //            // Add to playerInfos list
-            //            playerInfos.Add((address, bal0, bal1, safeAllowanceHex.ToString()));
-            //        }
-            //        finally
-            //        {
-            //            semaphore.Release(); // Release slot for next request
-            //        }
-            //    });
-
-            //    tasks.Add(task);
-            //}
-
-            //await Task.WhenAll(tasks); // Wait for all to finish
-
 
             // 🔹 Fetch epochDuration & compute current epochId
             var epochIdFn = pairContract.GetFunction("currentEpochId");

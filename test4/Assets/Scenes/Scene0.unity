@@ -154,7 +154,7 @@ MonoBehaviour:
   selectedCharacterIndex: 0
   playerId: 1
   buildMerkleTree: {fileID: 2049391326}
-  localProjectRunning: 1
+  localProjectRunning: 0
 --- !u!4 &159879232
 Transform:
   m_ObjectHideFlags: 0
